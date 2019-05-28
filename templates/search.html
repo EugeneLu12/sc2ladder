@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>sc2ladder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+  </head>
+  <body>
+    <div class="navBarHeader">
+        <ul>
+        <li class="navigation"><a href="../">sc2Ladder</a></li>
+        <li class="navigation">
+          <div class="dropdown">
+            <button class="dropbtn navigation">Ladders</button>
+            <div class="dropdown-content navigation">
+            <a href="../ladder?region=us&page=1">NA Ladder</a>
+            <a href="../ladder?region=eu&page=1">EU Ladder</a>
+            <a href="../ladder?region=kr&page=1">KR Ladder</a>
+            </div>
+          </div>
+        </li>
+        <li class="navigation"><a href="../about">About</a></li>
+        <input id="search" type="text" placeholder="Search for players...">
+        </ul>
+      </div>
+    {% if pages_required > -1 %}
+      <table class="resultsTable">
+        <th>Region</th>
+        <th>Rank</th>
+        <th>Character Name</th>
+        <th>Battle Net ID</th>
+        <th>Race</th>
+        <th>MMR</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        {% for player in players %} 
+          <tr>
+            <td>{{ player[0] }}</td>
+            <td><img src="static/assets/img/{{ player[1] }}.png" class="icon"></td>
+            {% if player[8] != None %}
+              <td>[{{ player[8] }}]{{ player[2][:player[2].index("#")] }}</td>
+            {% else %}
+              <td>{{ player[2][:player[2].index("#")] }}</td>
+            {% endif %}
+            <td>{{ player[3] }}</td>
+            <td><img src="static/assets/img/{{ player[4] }}.png" class="icon"></td>
+            <td>{{ player[5] }}</td>
+            <td>{{ player[6] }}</td>
+            <td>{{ player[7] }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      <table class="footer">
+        <tr>
+            {% if pages_required > 12 %}
+              {% if page_number < 8 %}
+                {% for i in range(0, page_number + 4) %}
+                  {% if i + 1 == page_number %}
+                    <td id="onPage">{{ i + 1 }}</td>
+                  {% else %}
+                    <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endif %}
+                {% endfor %}
+                <td>...</td>
+                {% for i in range(pages_required - 4, pages_required) %}
+                  <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endfor %}
+              {% elif page_number < pages_required - 8 %}
+                {% for i in range(0, 4) %}
+                  <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endfor %}
+                <td>...</td>
+                {% for i in range(page_number - 4, page_number + 3) %}
+                  {% if i + 1 == page_number %}
+                    <td id="onPage">{{ i + 1 }}</td>
+                  {% else %}
+                    <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                  {% endif %}
+                {% endfor %}
+                <td>...</td>
+                {% for i in range(pages_required - 4, pages_required) %}
+                  <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endfor %}
+              {% else %}
+                {% for i in range(0, 4) %}
+                  <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endfor %}
+                <td>...</td>
+                {% for i in range(page_number - 4, pages_required) %}
+                  {% if i + 1 == page_number %}
+                    <td id="onPage">{{ i + 1 }}</td>
+                  {% else %}
+                    <td><a href="?region={{ region }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                {% endif %}
+                {% endfor %}  
+              {% endif %}
+            {% else %}
+              {% for i in range(0, pages_required) %}
+              <td>{{ i + 1 }}</td>
+              {% endfor %}
+            {% endif %}
+          </tr>
+        </table>
+      {% else %}
+      <table class="resultsTable">
+        <tr><td><h1>No results found!</h1></td></tr>
+      </table>
+      {% endif %}
+  </body>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/search.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+</html>

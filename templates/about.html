@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>sc2ladder</title>
+    <link rel="stylesheet" href="static/css/about.css">
+    <link rel="stylesheet" href="static/css/navbar.css">
+  </head>
+  <body>
+    <div class="navBarHeader">
+        <ul>
+        <li class="navigation"><a href="../">sc2Ladder</a></li>
+        <li class="navigation">
+          <div class="dropdown">
+            <button class="dropbtn navigation">Ladders</button>
+            <div class="dropdown-content navigation">
+            <a href="../ladder?region=us&page=1">NA Ladder</a>
+            <a href="../ladder?region=eu&page=1">EU Ladder</a>
+            <a href="../ladder?region=kr&page=1">KR Ladder</a>
+            </div>
+          </div>
+        </li>
+        <li id="isSelected" class="navigation"><a href="../">About</a></li>
+        <input id="search" type="text" placeholder="Search for players...">
+        </ul>
+      </div>
+      <div class='text'>
+        <h1>
+            sc2Ladder is a website that displays the in-game ladders of StarCraft II and updates them in real time. <br><br>
+            It also has the unique feature of revealing an account's Battle Net ID, revealing the identity of some barcode accounts. <br><br>
+            The source code can be found <a href="https://github.com/YenFu1/sc2ladder">here.</a> <br><br>
+            All inquiries can be sent to <i>YenFu#4967</i> via private message on <i>Discord</i>.
+        </h1>
+    </div>
+  </body>
+  <script src="/static/js/search.js"></script>
+  <script src="/static/js/navBar.js"></script>
+</html>

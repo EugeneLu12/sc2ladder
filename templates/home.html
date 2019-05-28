@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>sc2ladder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+  </head>
+  <body>
+    <div class="navBarHeader">
+        <ul>
+        <li id="isSelected" class="navigation"><a href="../">sc2Ladder</a></li>
+        <li class="navigation">
+          <div class="dropdown">
+            <button class="dropbtn navigation">Ladders</button>
+            <div class="dropdown-content navigation">
+            <a href="/ladder?region=us&page=1">NA Ladder</a>
+            <a href="/ladder?region=eu&page=1">EU Ladder</a>
+            <a href="ladder?region=kr&page=1">KR Ladder</a>
+            </div>
+          </div>
+        <li class="navigation"><a href="../about">About</a></li>
+        </ul>
+      </div>
+    <h1> sc2Ladder </h1>
+    <div class=searchBar>
+      <input id="search" type="text" placeholder="Search for players using username or bnet id...">
+    </div>
+  </body>
+  <script src="../static/js/search.js"></script>
+</html>

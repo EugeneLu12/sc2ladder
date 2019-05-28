@@ -1,0 +1,37 @@
+html, body { 
+    background: url("../assets/img/background.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 48px 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 16px;
+    font-family: 'Segoe UI';
+    color: white;
+    background-color: rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    padding: 20px;
+    font-weight: normal;
+}
+
+h1 a {
+    text-decoration: none;
+    color: skyblue;
+}
+
+h1 a:hover {
+    text-decoration: underline;
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
