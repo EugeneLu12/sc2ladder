@@ -53,4 +53,4 @@ if __name__ == "__main__":
         init_ladder_db()
     except Exception as e:
         print(e)
-    app.run()
+    app.run(debug=True)

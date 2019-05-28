@@ -39,11 +39,12 @@ h1 {
   min-width: 200px;
   height: 50px;
   box-sizing: border-box;
-  border: 2px solid lightskyblue;
-  border-radius: 10px;
+  border: 1px solid rgb(90, 96, 104);
+  border-radius: 4px;
   font-family: 'Segoe UI';
   font-size: 16px;
-  background-color: white;
+  color: white;
+  background-color: rgb(19, 27, 38);
   background-image: url('../assets/img/magnify_icon.png');
   background-size: 30px 30px;
   background-position: 5px 50%;
@@ -51,7 +52,11 @@ h1 {
   background-repeat: no-repeat;
 }
 
+.searchBar input[type=text]:hover {
+    border: 1px solid rgb(137, 142, 147);
+}
+
 .searchBar input[type=text]:focus {
   outline: none;
-  box-shadow: 0 0 5px skyblue;
+  border: 1px solid rgb(73, 173, 248);
 }
