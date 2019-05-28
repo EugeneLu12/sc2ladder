@@ -3,14 +3,19 @@ from shared import constants
 from db import search_player_by_bnet_id, search_player_by_name, search_region, get_count_in_region, init_ladder_db
 from update_db import update_all
 from apscheduler.scheduler import Scheduler
+from flask_restful import Api
 from sort import *
+from player import Player
 import atexit
 
 app = Flask(__name__)
+api = Api(app)
 
 sched = Scheduler()
 sched.start()
 sched.add_interval_job(update_all, minutes=10)
+
+api.add_resource(Player, "/api/player")
 
 @app.route("/")
 def home():
