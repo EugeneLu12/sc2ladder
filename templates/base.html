@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>sc2ladder</title>
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+  <div class="navBarHeader">
+    <ul>
+      <li id="{{ 'isSelected' if active_page == 'home' else '' }}" class="navigation"><a href="../">sc2Ladder</a></li>
+      <li class="navigation">
+        <div class="dropdown">
+          <button class="dropbtn navigation">Ladders</button>
+          <div class="dropdown-content navigation">
+            <a href="/ladder?region=us&page=1">NA Ladder</a>
+            <a href="/ladder?region=eu&page=1">EU Ladder</a>
+            <a href="/ladder?region=kr&page=1">KR Ladder</a>
+          </div>
+        </div>
+      </li>
+      <li id="{{ 'isSelected' if active_page == 'about' else '' }}" class="navigation"><a href="../about">About</a></li>
+      {% if has_search_bar %}
+      <li>
+        <input id="search" type="text" placeholder="Search for players...">
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  {% block content %}{% endblock%}
+  </body>
+
+  {% block scripts %}{% endblock %}
+</html>
