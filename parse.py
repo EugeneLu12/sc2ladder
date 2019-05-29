@@ -28,6 +28,6 @@ def parse_ladder(response_json, region):
 
 def format_player_for_updating(player):
     return [player[0], player[1], player[2], player[3], player[4], player[5], player[6], player[7],
-        player[8], player[9], player[10], player[5], player[6], player[7], player[8]]
+        player[8], player[9], player[10], player[5], player[6], player[7], player[8], player[1]]
         
 
