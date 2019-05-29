@@ -34,19 +34,19 @@ def init_ladder_db():
     db.commit()
     db.close()
 
-def search_player_by_name(username):
+def search_player_by_name(username, limit=25):
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE bnet_id ILIKE %s OR username ILIKE %s''', 
-        [username + '%', username + '%'])
+    c.execute('''SELECT * FROM users WHERE bnet_id ILIKE %s OR username ILIKE %s LIMIT %s''',
+        [username + '%', username + '%', str(limit)])
     players = c.fetchall()
     db.close()
     return players
 
-def search_player_by_bnet_id(bnet_id):
+def search_player_by_bnet_id(bnet_id, limit=25):
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s)''', (bnet_id,))
+    c.execute('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, str(limit)))
     players = c.fetchall()
     db.close()
     return players
