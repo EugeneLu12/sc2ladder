@@ -25,10 +25,15 @@ def home():
 def search_user():
     name = request.args.get('name')
     bnet_id = request.args.get('bnet_id')
+    try:
+        limit = int(request.args.get('limit', 25))
+    except ValueError:
+        limit = 25
+    limit = min(limit, 200)
     if bnet_id is not None:
-        players = search_player_by_bnet_id(str(name) + '#' + str(bnet_id))
+        players = search_player_by_bnet_id(str(name) + '#' + str(bnet_id), limit=limit)
     else:
-        players = search_player_by_name(name)
+        players = search_player_by_name(name, limit=limit)
     players = sort_results_by_similarity(name, players)
     pages_required = (len(players) > 0) - 1
     return render_template('search.html', players=players, page_number=0, pages_required=pages_required)
