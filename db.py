@@ -16,7 +16,7 @@ def add_players(players):
                 race, mmr, wins, losses, clan, profile_id, unique_id)
                 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s)
                 ON CONFLICT(unique_id) DO UPDATE
-                SET mmr=%s, wins=%s, losses=%s, clan=%s ''', players)
+                SET mmr=%s, wins=%s, losses=%s, clan=%s, rank=%s ''', players)
     db.commit()
     db.close()
 
