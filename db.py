@@ -69,4 +69,4 @@ def search_region(region, offset, limit):
 
 def get_count_in_region(region):
     return query_db('''SELECT count(*) FROM users WHERE REGION=%s''',
-                    (region,), single=True)
+                    [region], single=True)
