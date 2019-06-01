@@ -9,6 +9,7 @@ password = url.password
 host = url.hostname
 port = url.port
 
+
 def add_players(players):
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     c = db.cursor()
@@ -19,6 +20,7 @@ def add_players(players):
                 SET mmr=%s, wins=%s, losses=%s, clan=%s, rank=%s ''', players)
     db.commit()
     db.close()
+
 
 def init_ladder_db():
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
@@ -34,45 +36,37 @@ def init_ladder_db():
     db.commit()
     db.close()
 
-def search_player_by_name(username, limit=25):
+
+def query_db(query, arguments, single=False):
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE bnet_id ILIKE %s OR username ILIKE %s LIMIT %s''',
-        [username + '%', username + '%', str(limit)])
-    players = c.fetchall()
+    c.execute(query, arguments)
+    if single:
+        result = c.fetchone()[0]
+    else:
+        result = c.fetchall()
     db.close()
-    return players
+    return result
+
+
+def search_player_by_name(username, limit=25):
+    return query_db('''SELECT * FROM users WHERE bnet_id ILIKE %s OR username ILIKE %s LIMIT %s''',
+                    [username + '%', username + '%', str(limit)])
+
 
 def search_player_by_bnet_id(bnet_id, limit=25):
-    db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-    c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, str(limit)))
-    players = c.fetchall()
-    db.close()
-    return players
+    return query_db('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, str(limit)))
+
 
 def search_player_by_profile_id(region, profile_id):
-    db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-    c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE region=%s AND profile_id=%s''', (region, profile_id))
-    players = c.fetchall()
-    db.close()
-    return players
+    return query_db('''SELECT * FROM users WHERE region=%s AND profile_id=%s''', (region, profile_id))
 
-def search_region(region, offset, start):
-    db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-    c = db.cursor()
-    c.execute('''SELECT * FROM users WHERE REGION=%s ORDER BY mmr DESC LIMIT %s OFFSET %s''',
-        (region, start, offset))
-    players = c.fetchall()
-    db.close()
-    return players
+
+def search_region(region, offset, limit):
+    return query_db('''SELECT * FROM users WHERE REGION=%s ORDER BY mmr DESC LIMIT %s OFFSET %s''',
+                    (region, limit, offset))
+
 
 def get_count_in_region(region):
-    db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-    c = db.cursor()
-    c.execute('''SELECT count(*) FROM users WHERE REGION=%s''',
-        (region,))
-    count = c.fetchone()
-    db.close()
-    return count[0]
+    return query_db('''SELECT count(*) FROM users WHERE REGION=%s''',
+                    (region,), single=True)
