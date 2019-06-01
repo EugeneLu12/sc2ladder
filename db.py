@@ -42,7 +42,7 @@ def query_db(query, arguments, single=False):
     c = db.cursor()
     c.execute(query, arguments)
     if single:
-        result = c.fetchone()[0]
+        result = c.fetchone()
     else:
         result = c.fetchall()
     db.close()
@@ -68,5 +68,6 @@ def search_region(region, offset, limit):
 
 
 def get_count_in_region(region):
-    return query_db('''SELECT count(*) FROM users WHERE REGION=%s''',
-                    [region], single=True)
+    count_tuple = query_db('''SELECT count(*) FROM users WHERE REGION=%s''',
+                           [region], single=True)
+    return count_tuple[0]
