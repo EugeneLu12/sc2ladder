@@ -55,16 +55,16 @@ def search_player_by_name(username, limit=25):
 
 
 def search_player_by_bnet_id(bnet_id, limit=25):
-    return query_db('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, limit))
+    return query_db('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', [bnet_id, limit])
 
 
 def search_player_by_profile_id(region, profile_id):
-    return query_db('''SELECT * FROM users WHERE region=%s AND profile_id=%s''', (region, profile_id))
+    return query_db('''SELECT * FROM users WHERE region=%s AND profile_id=%s''', [region, profile_id])
 
 
 def search_region(region, offset, limit):
     return query_db('''SELECT * FROM users WHERE REGION=%s ORDER BY mmr DESC LIMIT %s OFFSET %s''',
-                    (region, limit, offset))
+                    [region, limit, offset])
 
 
 def get_count_in_region(region):
