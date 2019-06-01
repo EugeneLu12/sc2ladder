@@ -51,11 +51,11 @@ def query_db(query, arguments, single=False):
 
 def search_player_by_name(username, limit=25):
     return query_db('''SELECT * FROM users WHERE bnet_id ILIKE %s OR username ILIKE %s LIMIT %s''',
-                    [username + '%', username + '%', str(limit)])
+                    [username + '%', username + '%', limit])
 
 
 def search_player_by_bnet_id(bnet_id, limit=25):
-    return query_db('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, str(limit)))
+    return query_db('''SELECT * FROM users WHERE LOWER(bnet_id)=LOWER(%s) LIMIT %s''', (bnet_id, limit))
 
 
 def search_player_by_profile_id(region, profile_id):
