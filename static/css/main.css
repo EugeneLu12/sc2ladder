@@ -48,7 +48,7 @@ h1 {
   background-image: url('../assets/img/magnify_icon.png');
   background-size: 30px 30px;
   background-position: 5px 50%;
-  padding-left: 40px;
+  padding: 0 8px 0 40px;
   background-repeat: no-repeat;
 }
 
