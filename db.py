@@ -26,13 +26,13 @@ def init_ladder_db():
     db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     c = db.cursor()
     c.execute('''
-        CREATE TABLE users(region text, rank text, username text, 
+        CREATE TABLE IF NOT EXISTS users(region text, rank text, username text, 
                         bnet_id text, race text, mmr int, wins int,
                         losses int, clan text, profile_id text, unique_id text UNIQUE) 
     ''')
-    c.execute('''
-        CREATE UNIQUE INDEX unique_user_id ON users(unique_id)
-    ''')
+    c.execute('''CREATE EXTENSION IF NOT EXISTS pg_trgm;''')
+    c.execute('''CREATE INDEX IF NOT EXISTS users_idx1 ON users USING GIST (bnet_id gist_trgm_ops);''')
+    c.execute('''CREATE INDEX IF NOT EXISTS users_idx2 ON users USING GIST (username gist_trgm_ops);''')
     db.commit()
     db.close()
 
