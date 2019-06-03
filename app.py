@@ -53,6 +53,12 @@ def ladder():
     return render_template('search.html', players=players, region=region.lower(),
         page_number=page_number, pages_required=pages_required)
 
+
+@app.before_first_request
+def init_db():
+    init_ladder_db()
+
+
 if __name__ == "__main__":
     try:
         init_ladder_db()
