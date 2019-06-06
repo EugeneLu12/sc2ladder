@@ -32,7 +32,21 @@ def search(request):
 
 
 def ladder(request):
-    return render(request, 'search.html')
+    region = request.GET.get('region').upper()
+    page_number = int(request.GET.get('page'))
+    limit = 25
+    start = (page_number-1) * limit
+    end = start + limit
+    region_players = Player.players.filter(region__iexact=region)
+    length = region_players.count()
+    players = region_players.order_by('-mmr')[start:end]
+    pages_required = int(length / limit) + 1
+    return render(request, 'search.html', {
+        "players": players,
+        "region": region.lower(),
+        "page_number": page_number,
+        "pages_required": pages_required
+    })
 
 
 def about(request):
