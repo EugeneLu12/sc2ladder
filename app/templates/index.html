@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ static('css/main.css') }}">
+<link rel="stylesheet" href="{{ static('css/navbar.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1> sc2Ladder </h1>
+<div class=searchBar>
+  <input id="search" type="text" placeholder="Search for players using username or battletag">
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ static('js/search.js') }}"></script>
+{% endblock %}
