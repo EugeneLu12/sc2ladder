@@ -1,5 +1,4 @@
-*.pyc
-__pycache__
-virtual
+.env
+.idea
 .vscode
-credentials.py
+db.sqlite3
