@@ -45,7 +45,7 @@ li a:hover {
     background-image: url('../assets/img/magnify_icon.png');
     background-size: 30px 30px;
     background-position: 5px 50%;
-    padding-left: 40px;
+    padding: 0 8px 0 40px;
     border-radius: 4px;
     border: 1px solid rgb(90, 96, 104);
     background-repeat: no-repeat;
