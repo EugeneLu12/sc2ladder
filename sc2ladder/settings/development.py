@@ -2,6 +2,7 @@ from .common import *
 
 SECRET_KEY = '0c(i&aa$a5gt8#2mc&#7mw7mw_59vy3@$or#fphd6tbf2esjjo'
 DEBUG = True
+ALLOWED_HOSTS = ['*']
 
 DB_BATCH_SIZE = 100
 DATABASES = {

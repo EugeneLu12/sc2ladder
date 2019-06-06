@@ -3,7 +3,8 @@ import urllib.parse as urlparse
 from .common import *
 
 SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = False
+DEBUG = True
+ALLOWED_HOSTS = ['*']
 
 DB_BATCH_SIZE = 1000
 url = urlparse.urlparse(os.environ['DATABASE_URL'])
