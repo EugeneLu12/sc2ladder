@@ -22,7 +22,11 @@
     <li {% if 'about' in request.path %}id="isSelected"{% endif %} class="navigation"><a href="{{ url('about') }}">About</a></li>
     {% if request.path != '/' %}
     <li>
-      <input id="search" type="text" placeholder="Search for players...">
+    <form action="{{ url('search') }}" method="get">
+      <div class=searchBar>
+        <input id="search" type="text" placeholder="Search for players" name="query">
+      </div>
+    </form>
     </li>
     {% endif %}
   </ul>
@@ -30,6 +34,4 @@
 
 {% block content %}{% endblock%}
 </body>
-
-{% block scripts %}{% endblock %}
 </html>

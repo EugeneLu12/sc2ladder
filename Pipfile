@@ -11,6 +11,7 @@ requests = "*"
 aiohttp = "*"
 django-enumfields = "*"
 jinja2 = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

@@ -11,8 +11,8 @@ def index(request):
 
 
 def search(request):
-    name = request.GET.get('name')
-    bnet_id = request.GET.get('bnet_id')
+    query = request.GET.get('query').strip()
+    name, bnet_id = query.split('#') if '#' in query else (query, None)
     try:
         limit = int(request.GET.get('limit', 25))
     except ValueError:
@@ -35,7 +35,7 @@ def ladder(request):
     region = request.GET.get('region').upper()
     page_number = int(request.GET.get('page'))
     limit = 25
-    start = (page_number-1) * limit
+    start = (page_number - 1) * limit
     end = start + limit
     region_players = Player.players.filter(region__iexact=region)
     length = region_players.count()

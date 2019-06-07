@@ -1,6 +1,8 @@
 import asyncio
 import logging
 
+from django.conf import settings
+
 from app.models import Player
 from app.src.fetch import get_all_ladder_responses_for_region
 from app.src.parse import parse_ladder
@@ -23,7 +25,8 @@ def update_all_for_region(region):
         ladder = parse_ladder(ladder, region)
         players_to_add += ladder
     Player.players.bulk_create(players_to_add, batch_size=450, ignore_conflicts=True)
-    Player.players.bulk_update(players_to_add, ['mmr', 'wins', 'losses', 'clan', 'rank'],  batch_size=450)
+    Player.players.bulk_update(players_to_add, ['mmr', 'wins', 'losses', 'clan', 'rank'],
+                               batch_size=settings.DB_BATCH_SIZE)
     loop.close()
 
 
