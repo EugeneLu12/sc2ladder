@@ -11,6 +11,7 @@ EU_REGION = 'eu'
 KR_TW_REGION = 'kr'
 CN_REGION = 'cn'
 
+
 def update_all_for_region(region):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
@@ -22,6 +23,7 @@ def update_all_for_region(region):
         Player.players.bulk_update(ladder, ['mmr', 'wins', 'losses', 'clan', 'rank'],
                                    batch_size=settings.DB_BATCH_SIZE)
     loop.close()
+
 
 def update_all():
     print('updating NA region')
