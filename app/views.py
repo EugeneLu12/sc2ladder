@@ -1,24 +1,38 @@
 from django.db.models import Q
 from django.shortcuts import render
-
 from app.models import Player, Rank
+from app.serializers import PlayerSerializer
+from rest_framework import generics
+
+
+class PlayerList(generics.ListAPIView):
+    serializer_class = PlayerSerializer
+    def get_queryset(self):
+        query = self.request.query_params.get('query')
+        name, bnet_id = query.split('#') if '#' in query else (query, None)
+        limit = int(self.request.query_params.get('limit', 25))
+        players = get_players(name, bnet_id, limit)
+        return players
+
+
+def get_players(name=None, bnet_id=None, limit=25):
+    limit = min(limit, 200)
+    if bnet_id is not None:
+        return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
+    else:
+        bnet_or_name_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name)
+        return Player.players.filter(bnet_or_name_filter).order_by('-mmr')[:limit]
+
 
 def index(request):
     return render(request, 'index.html')
 
+
 def search(request):
     query = request.GET.get('query').strip()
     name, bnet_id = query.split('#') if '#' in query else (query, None)
-    try:
-        limit = int(request.GET.get('limit', 25))
-    except ValueError:
-        limit = 25
-    limit = min(limit, 200)
-    if bnet_id is not None:
-        players = Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
-    else:
-        bnet_or_name_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name)
-        players = Player.players.filter(bnet_or_name_filter).order_by('-mmr')[:limit]
+    limit = int(request.GET.get('limit', 25))
+    players = get_players(name, bnet_id, limit)
     pages_required = (len(players) > 0) - 1
     return render(request, 'search.html', {
         'players': players,
