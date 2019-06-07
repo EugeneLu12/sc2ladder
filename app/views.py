@@ -32,7 +32,6 @@ def ladder(request):
     rank = request.GET.get('rank')
     sort_by = request.GET.get('sort')
     page_number = int(request.GET.get('page'))
-
     region_query = region if region != 'all' else ''
     rank_query = Rank[rank.upper()].value if rank != 'all' else ''
     
@@ -47,7 +46,6 @@ def ladder(request):
     else:
         players = region_players.order_by('-rank')[start:end]
     pages_required = int(length / limit) + 1
-
     return render(request, 'search.html', {
         "players": players,
         "region_filter": region,
@@ -55,7 +53,7 @@ def ladder(request):
         "page_number": page_number,
         "pages_required": pages_required,
         "rank_filter": rank,
-        "ranks": [str(r).lower() for r in reversed(Rank)],
+        "ranks": [str(r) for r in reversed(Rank)],
         "sort": sort_by
     })
 
