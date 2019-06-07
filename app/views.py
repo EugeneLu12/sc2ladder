@@ -1,9 +1,7 @@
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render
 
 from app.models import Player
-from app.src.update_db import update_all, update_all_for_region
 
 
 def index(request):
@@ -51,12 +49,3 @@ def ladder(request):
 
 def about(request):
     return render(request, 'about.html')
-
-
-def update_db(request):
-    region = request.GET.get('region')
-    if region is None:
-        update_all()
-    else:
-        update_all_for_region(region.lower())
-    return HttpResponse('done')

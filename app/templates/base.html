@@ -24,7 +24,7 @@
     <li>
     <form action="{{ url('search') }}" method="get">
       <div class=searchBar>
-        <input id="search" type="text" placeholder="Search for players" name="query">
+        <input id="search" type="text" autocomplete="off" placeholder="Search for players" name="query">
       </div>
     </form>
     </li>
@@ -32,6 +32,7 @@
   </ul>
 </div>
 
-{% block content %}{% endblock%}
+{% block content %}{% endblock %}
 </body>
+{% block scripts %}{% endblock %}
 </html>

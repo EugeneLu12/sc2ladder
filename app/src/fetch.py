@@ -1,12 +1,9 @@
 import asyncio
 import json
-import logging
 
 import aiohttp
 import requests
 from django.conf import settings
-
-logger = logging.getLogger(__name__)
 
 
 def get_token():
@@ -39,7 +36,6 @@ async def fetch_ladder(token, region, ladder_id, session):
     }
     url = f'https://{region}.api.blizzard.com/data/sc2/ladder/{ladder_id}?{token}'
     async with session.get(url, headers=headers) as r:
-        logging.info(f'fetching ladder id: {ladder_id}')
         return await r.json()
 
 

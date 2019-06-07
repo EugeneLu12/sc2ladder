@@ -1,10 +1,12 @@
 import urllib.parse as urlparse
 
+import django_heroku
+
 from .common import *
 
-SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+django_heroku.settings(locals())
+
+DEBUG = False
 
 DB_BATCH_SIZE = 1000
 url = urlparse.urlparse(os.environ['DATABASE_URL'])

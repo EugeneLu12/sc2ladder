@@ -12,6 +12,8 @@ aiohttp = "*"
 django-enumfields = "*"
 jinja2 = "*"
 psycopg2 = "*"
+django-heroku = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
