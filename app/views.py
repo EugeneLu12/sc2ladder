@@ -1,9 +1,7 @@
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render
 
 from app.models import Player, Rank
-from app.src.update_db import update_all
 
 def index(request):
     return render(request, 'index.html')
@@ -30,7 +28,6 @@ def search(request):
 
 
 def ladder(request):
-    RANKS = ["grandmaster", "master", "diamond", "platinum", "gold", "silver", "bronze"]
     region = request.GET.get('region')
     rank = request.GET.get('rank')
     sort_by = request.GET.get('sort')
@@ -57,7 +54,7 @@ def ladder(request):
         "page_number": page_number,
         "pages_required": pages_required,
         "rank_filter": rank,
-        "ranks": RANKS,
+        "ranks": [str(r).lower() for r in Rank],
         "sort": sort_by
     })
 
