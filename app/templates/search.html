@@ -7,56 +7,58 @@
 
 {% block content %}
 {% if pages_required > -1 %}
-  <table class="filter">
-    <tr>
-      <th>Sort By:</th>
-      {% if sort == 'mmr' %}
-        <td class="isActive">MMR</td>
-      {% else %}
-        <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=mmr&page=1">MMR</a></td>
-      {% endif %}
-      {% if sort == 'rank' %}
-        <td class="isActive">Rank</td>
-      {% else %}
-        <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=rank&page=1">Rank</a></td>
-      {% endif %}
-      <th>Region:</th>
-      {% if region == 'all' %}
-        <td class="isActive">all</td>
-      {% else %}
-        <td><a href="?region=all&rank={{ rank_filter }}&sort={{ sort }}&page=1">all</a></td>
-      {% endif %}
-      {% if region == 'us' %}
-        <td class="isActive">NA</td>
-      {% else %}
-        <td><a href="?region=us&rank={{ rank_filter }}&sort={{ sort }}&page=1">NA</a></td>
-      {% endif %}
-      {% if region == 'eu' %}
-        <td class="isActive">EU</td>
-      {% else %}
-        <td><a href="?region=eu&rank={{ rank_filter }}&sort={{ sort }}&page=1">EU</a></td>
-      {% endif %}
-      {% if region == 'kr' %}
-        <td class="isActive">KR</td>
-      {% else %}
-        <td><a href="?region=kr&rank={{ rank_filter }}&sort={{ sort }}&page=1">KR</a></td>
-      {% endif %}
-      <th>Rank:</th>
-      {% if rank_filter == 'all' %}
-        <td class="isActive">all</td>
-      {% else %}
-        <td><a href="?region={{ region }}&rank=all&&sort={{ sort }}&page=1">all</a></td>
-      {% endif %}
-      {% for rank in ranks %}
-        {% if rank == rank_filter %}
-          <td class="isActive"><img src="static/assets/img/{{ rank }}.png" class="icon"></td>
+  {% if region %}
+    <table class="filter">
+      <tr>
+        <th>Sort By:</th>
+        {% if sort == 'mmr' %}
+          <td class="isActive">MMR</td>
         {% else %}
-          <td><a href="?region={{ region }}&rank={{ rank }}&sort={{ sort }}&page=1"><img src="static/assets/img/{{ rank }}.png" class="icon"></a></td>
+          <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=mmr&page=1">MMR</a></td>
         {% endif %}
-      {% endfor %}
-      <th class="reset"><a href="?region=all&rank=all&sort=mmr&page=1">Reset Filters</a></th>
-    </tr>
-  </table>
+        {% if sort == 'rank' %}
+          <td class="isActive">Rank</td>
+        {% else %}
+          <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=rank&page=1">Rank</a></td>
+        {% endif %}
+        <th>Region:</th>
+        {% if region == 'all' %}
+          <td class="isActive">all</td>
+        {% else %}
+          <td><a href="?region=all&rank={{ rank_filter }}&sort={{ sort }}&page=1">all</a></td>
+        {% endif %}
+        {% if region == 'us' %}
+          <td class="isActive">NA</td>
+        {% else %}
+          <td><a href="?region=us&rank={{ rank_filter }}&sort={{ sort }}&page=1">NA</a></td>
+        {% endif %}
+        {% if region == 'eu' %}
+          <td class="isActive">EU</td>
+        {% else %}
+          <td><a href="?region=eu&rank={{ rank_filter }}&sort={{ sort }}&page=1">EU</a></td>
+        {% endif %}
+        {% if region == 'kr' %}
+          <td class="isActive">KR</td>
+        {% else %}
+          <td><a href="?region=kr&rank={{ rank_filter }}&sort={{ sort }}&page=1">KR</a></td>
+        {% endif %}
+        <th>Rank:</th>
+        {% if rank_filter == 'all' %}
+          <td class="isActive">all</td>
+        {% else %}
+          <td><a href="?region={{ region }}&rank=all&&sort={{ sort }}&page=1">all</a></td>
+        {% endif %}
+        {% for rank in ranks %}
+          {% if rank == rank_filter %}
+            <td class="isActive"><img src="static/assets/img/{{ rank }}.png" class="icon"></td>
+          {% else %}
+            <td><a href="?region={{ region }}&rank={{ rank }}&sort={{ sort }}&page=1"><img src="static/assets/img/{{ rank }}.png" class="icon"></a></td>
+          {% endif %}
+        {% endfor %}
+        <th class="reset"><a href="?region=all&rank=all&sort=mmr&page=1">Reset Filters</a></th>
+      </tr>
+    </table>
+  {% endif %}
   <table class="resultsTable">
     <thead>
       <tr>
@@ -149,7 +151,6 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="{{ static('js/search.js') }}"></script>
-  <script src="{{ static('js/navBar.js') }}"></script>
+  <script src="{{ static('js/navbar.js') }}"></script>
 {% endblock %}
 </html>
