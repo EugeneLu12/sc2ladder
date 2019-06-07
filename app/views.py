@@ -5,10 +5,19 @@ from django.shortcuts import render
 from app.models import Player
 from app.src.update_db import update_all
 
+from enum import Enum
+
+class Rank(Enum):
+    bronze = 0
+    silver = 1
+    gold = 2
+    platinum = 3
+    diamond = 4
+    master = 5
+    grandmaster = 6
 
 def index(request):
     return render(request, 'index.html')
-
 
 def search(request):
     query = request.GET.get('query').strip()
@@ -32,20 +41,35 @@ def search(request):
 
 
 def ladder(request):
-    region = request.GET.get('region').upper()
+    RANKS = ["grandmaster", "master", "diamond", "platinum", "gold", "silver", "bronze"]
+    region = request.GET.get('region')
+    rank = request.GET.get('rank')
+    sort_by = request.GET.get('sort')
     page_number = int(request.GET.get('page'))
+
+    region_query = region if region != 'all' else ''
+    rank_query = Rank[rank].value if rank != 'all' else ''
+    
     limit = 25
     start = (page_number - 1) * limit
     end = start + limit
-    region_players = Player.players.filter(region__iexact=region)
+    region_players = Player.players.filter(region__icontains=region_query,
+                                        rank__icontains=rank_query)
     length = region_players.count()
-    players = region_players.order_by('-mmr')[start:end]
+    if sort_by == 'mmr':
+        players = region_players.order_by('-mmr')[start:end]
+    else:
+        players = region_players.order_by('-rank')[start:end]
     pages_required = int(length / limit) + 1
+
     return render(request, 'search.html', {
         "players": players,
-        "region": region.lower(),
+        "region": region,
         "page_number": page_number,
-        "pages_required": pages_required
+        "pages_required": pages_required,
+        "rank_filter": rank,
+        "ranks": RANKS,
+        "sort": sort_by
     })
 
 
