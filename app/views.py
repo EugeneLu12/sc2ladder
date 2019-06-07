@@ -75,8 +75,3 @@ def ladder(request):
 
 def about(request):
     return render(request, 'about.html')
-
-
-def update_db(request):
-    update_all()
-    return HttpResponse('done')

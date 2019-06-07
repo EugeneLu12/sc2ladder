@@ -1,13 +1,10 @@
 import asyncio
-import logging
 
 from django.conf import settings
 
 from app.models import Player
 from app.src.fetch import get_all_ladder_responses_for_region
 from app.src.parse import parse_ladder
-
-logger = logging.getLogger(__name__)
 
 NA_REGION = 'us'
 EU_REGION = 'eu'
@@ -19,21 +16,17 @@ def update_all_for_region(region):
     asyncio.set_event_loop(loop)
     future = asyncio.ensure_future(get_all_ladder_responses_for_region(region))
     ladder_list = loop.run_until_complete(future)
-    players_to_add = []
     for ladder in ladder_list:
         ladder = parse_ladder(ladder, region)
-        players_to_add += ladder
-    Player.players.bulk_create(players_to_add, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True)
-    Player.players.bulk_update(players_to_add, ['mmr', 'wins', 'losses', 'clan', 'rank'],
-                               batch_size=settings.DB_BATCH_SIZE)
+        Player.players.bulk_create(ladder, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True)
+        Player.players.bulk_update(ladder, ['mmr', 'wins', 'losses', 'clan', 'rank'],
+                                   batch_size=settings.DB_BATCH_SIZE)
     loop.close()
 
-
 def update_all():
-    logging.info("updating NA region")
+    print('updating NA region')
     update_all_for_region(NA_REGION)
-    # logging.info("updating EU region")
-    # update_all_for_region(EU_REGION)
-    # logging.info("updating KR region")
-    # update_all_for_region(KR_TW_REGION)
-    logging.info("database updated")
+    print('updating EU region')
+    update_all_for_region(EU_REGION)
+    print('updating KR region')
+    update_all_for_region(KR_TW_REGION)

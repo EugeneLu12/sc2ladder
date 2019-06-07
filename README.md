@@ -13,3 +13,14 @@ python manage.py migrate
 python manage.py createsuperuser // optional
 python manage.py runserver
 ```
+
+## Deploying
+
+For first time setup you'll have to install the Heroku CLI and do
+`heroku git:remote -a sc2ladder`. After that simply run `git push heroku master`.
+
+
+## Debugging
+
+Useful commands: `heroku logs --tail`, `heroku ps`, and `heroku logs --dyno [dyno from heroku ps] --tail
+`
