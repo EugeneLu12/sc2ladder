@@ -9,7 +9,7 @@
 <h1> sc2Ladder </h1>
 <form action="{{ url('search') }}" method="get">
   <div class=searchBar>
-    <input id="search" type="text" placeholder="Search for players using username or battletag" name="query">
+    <input id="search" type="text" autocomplete="off" placeholder="Search for players using username or battletag" name="query">
   </div>
 </form>
 {% endblock %}

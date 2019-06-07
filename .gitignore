@@ -2,3 +2,4 @@
 .idea
 .vscode
 db.sqlite3
+requirements.txt
