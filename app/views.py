@@ -2,19 +2,8 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from app.models import Player
+from app.models import Player, Rank
 from app.src.update_db import update_all
-
-from enum import Enum
-
-class Rank(Enum):
-    bronze = 0
-    silver = 1
-    gold = 2
-    platinum = 3
-    diamond = 4
-    master = 5
-    grandmaster = 6
 
 def index(request):
     return render(request, 'index.html')
@@ -48,7 +37,7 @@ def ladder(request):
     page_number = int(request.GET.get('page'))
 
     region_query = region if region != 'all' else ''
-    rank_query = Rank[rank].value if rank != 'all' else ''
+    rank_query = Rank[rank.upper()].value if rank != 'all' else ''
     
     limit = 25
     start = (page_number - 1) * limit
