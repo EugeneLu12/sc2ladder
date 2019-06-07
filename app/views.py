@@ -50,11 +50,12 @@ def ladder(request):
 
     return render(request, 'search.html', {
         "players": players,
-        "region": region,
+        "region_filter": region,
+        "regions": ['all', 'US', 'EU', 'KR'],
         "page_number": page_number,
         "pages_required": pages_required,
         "rank_filter": rank,
-        "ranks": [str(r).lower() for r in Rank],
+        "ranks": [str(r).lower() for r in reversed(Rank)],
         "sort": sort_by
     })
 

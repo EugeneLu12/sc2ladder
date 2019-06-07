@@ -7,53 +7,21 @@
 
 {% block content %}
 {% if pages_required > -1 %}
-  {% if region %}
+  {% if region_filter %}
     <table class="filter">
       <tr>
         <th>Sort By:</th>
-        {% if sort == 'mmr' %}
-          <td class="isActive">MMR</td>
-        {% else %}
-          <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=mmr&page=1">MMR</a></td>
-        {% endif %}
-        {% if sort == 'rank' %}
-          <td class="isActive">Rank</td>
-        {% else %}
-          <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort=rank&page=1">Rank</a></td>
-        {% endif %}
+        <td {% if sort == 'mmr' %}class="isActive"{% endif %}><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort=mmr&page=1">MMR</a></td>
+        <td {% if sort == 'rank' %}class="isActive"{% endif %}><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort=rank&page=1">Rank</a></td>
         <th>Region:</th>
-        {% if region == 'all' %}
-          <td class="isActive">all</td>
-        {% else %}
-          <td><a href="?region=all&rank={{ rank_filter }}&sort={{ sort }}&page=1">all</a></td>
-        {% endif %}
-        {% if region == 'us' %}
-          <td class="isActive">NA</td>
-        {% else %}
-          <td><a href="?region=us&rank={{ rank_filter }}&sort={{ sort }}&page=1">NA</a></td>
-        {% endif %}
-        {% if region == 'eu' %}
-          <td class="isActive">EU</td>
-        {% else %}
-          <td><a href="?region=eu&rank={{ rank_filter }}&sort={{ sort }}&page=1">EU</a></td>
-        {% endif %}
-        {% if region == 'kr' %}
-          <td class="isActive">KR</td>
-        {% else %}
-          <td><a href="?region=kr&rank={{ rank_filter }}&sort={{ sort }}&page=1">KR</a></td>
-        {% endif %}
+        {% for region in regions %}
+          <td {% if region.lower() == region_filter %}class="isActive"{% endif %}><a href="?region={{ region.lower() }}&rank={{ rank_filter }}&sort={{ sort }}&page=1">{{ region }}</a></td>
+        {% endfor %}
         <th>Rank:</th>
-        {% if rank_filter == 'all' %}
-          <td class="isActive">all</td>
-        {% else %}
-          <td><a href="?region={{ region }}&rank=all&&sort={{ sort }}&page=1">all</a></td>
-        {% endif %}
+        <td {% if rank_filter == 'all' %}class="isActive"{% endif %}><a href="?region={{ region_filter }}&rank=all&sort={{ sort }}&page=1">all</a></td>
         {% for rank in ranks %}
-          {% if rank == rank_filter %}
-            <td class="isActive"><img src="static/assets/img/{{ rank }}.png" class="icon"></td>
-          {% else %}
-            <td><a href="?region={{ region }}&rank={{ rank }}&sort={{ sort }}&page=1"><img src="static/assets/img/{{ rank }}.png" class="icon"></a></td>
-          {% endif %}
+          <td {% if rank == rank_filter %}class="isActive"{% endif %}><a href="?region={{ region_filter }}&rank={{ rank }}&sort={{ sort }}&page=1">
+            <img src="static/assets/img/{{ rank }}.png" class="icon"></a></td>
         {% endfor %}
         <th class="reset"><a href="?region=all&rank=all&sort=mmr&page=1">Reset Filters</a></th>
       </tr>
@@ -96,39 +64,39 @@
               {% if i + 1 == page_number %}
                 <td id="onPage">{{ i + 1 }}</td>
               {% else %}
-                <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endif %}
             {% endfor %}
             <td>...</td>
             {% for i in range(pages_required - 4, pages_required) %}
-              <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+              <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endfor %}
           {% elif page_number < pages_required - 8 %}
             {% for i in range(0, 4) %}
-              <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+              <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endfor %}
             <td>...</td>
             {% for i in range(page_number - 4, page_number + 3) %}
               {% if i + 1 == page_number %}
                 <td id="onPage">{{ i + 1 }}</td>
               {% else %}
-                <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
               {% endif %}
             {% endfor %}
             <td>...</td>
             {% for i in range(pages_required - 4, pages_required) %}
-              <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+              <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endfor %}
           {% else %}
             {% for i in range(0, 4) %}
-              <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+              <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endfor %}
             <td>...</td>
             {% for i in range(page_number - 4, pages_required) %}
               {% if i + 1 == page_number %}
                 <td id="onPage">{{ i + 1 }}</td>
               {% else %}
-                <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+                <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endif %}
             {% endfor %}
           {% endif %}
@@ -137,7 +105,7 @@
             {% if i + 1 == page_number %}
               <td id="onPage">{{ i + 1 }}</td>
             {% else %}
-              <td><a href="?region={{ region }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
+              <td><a href="?region={{ region_filter }}&rank={{ rank_filter }}&sort={{ sort }}&page={{ i + 1 }}">{{ i + 1 }}</a></td>
             {% endif %}
           {% endfor %}
         {% endif %}
