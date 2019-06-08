@@ -5,6 +5,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 BLIZZARD_CLIENT_ID = os.environ['BLIZZARD_CLIENT_ID']
 BLIZZARD_CLIENT_SECRET = os.environ['BLIZZARD_CLIENT_SECRET']
+DEFAULT_QUERY_LIMIT = 25
+MAX_QUERY_LIMIT = 200
 
 INSTALLED_APPS = [
     'app',

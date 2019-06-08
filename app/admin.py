@@ -5,4 +5,5 @@ from app.models import Player
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('username', 'bnet_id', 'mmr', 'race')
+    readonly_fields = ('created_at', 'modified_at')
