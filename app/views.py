@@ -1,12 +1,27 @@
 from django.db.models import Q
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
 
-from app.models import Player, Rank
+from app.models import Player, Rank, Race
 
-def index(request):
-    return render(request, 'index.html')
 
-def search(request):
+class EnumEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (Rank, Race)):
+            return str(obj)
+        else:
+            return super().default(obj)
+
+
+def api_search(request):
+    players = list(
+        get_players(request).values('realm', 'region', 'rank', 'username', 'bnet_id', 'race',
+                                    'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+    return JsonResponse(players, safe=False, encoder=EnumEncoder)
+
+
+def get_players(request):
     query = request.GET.get('query').strip()
     name, bnet_id = query.split('#') if '#' in query else (query, None)
     try:
@@ -15,10 +30,17 @@ def search(request):
         limit = 25
     limit = min(limit, 200)
     if bnet_id is not None:
-        players = Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
+        return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
     else:
         bnet_or_name_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name)
-        players = Player.players.filter(bnet_or_name_filter).order_by('-mmr')[:limit]
+        return Player.players.filter(bnet_or_name_filter).order_by('-mmr')[:limit]
+
+
+def index(request):
+    return render(request, 'index.html')
+
+def search(request):
+    players = get_players(request)
     pages_required = (len(players) > 0) - 1
     return render(request, 'search.html', {
         'players': players,
@@ -44,7 +66,7 @@ def ladder(request):
     if sort_by == 'mmr':
         players = region_players.order_by('-mmr')[start:end]
     else:
-        players = region_players.order_by('-rank')[start:end]
+        players = region_players.order_by('-rank', '-mmr')[start:end]
     pages_required = int(length / limit) + 1
     return render(request, 'search.html', {
         "players": players,

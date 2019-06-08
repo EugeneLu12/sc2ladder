@@ -7,4 +7,5 @@ urlpatterns = [
     path('search', search, name='search'),
     path('ladder', ladder, name='ladder'),
     path('about', about, name='about'),
+    path('api/player', api_search, name='api')
 ]
