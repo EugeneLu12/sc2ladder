@@ -5,7 +5,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 from app.models import Player, Rank, Race
 
-
 class EnumEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, (Rank, Race)):
@@ -38,6 +37,7 @@ def get_players(request):
 
 def index(request):
     return render(request, 'index.html')
+
 
 def search(request):
     players = get_players(request)
