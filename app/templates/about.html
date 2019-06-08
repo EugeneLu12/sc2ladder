@@ -27,10 +27,10 @@
       </p>
   </div>
   <div class="content">
-    <h1>Player API</h1>
+    <h1>GET - Player</h1>
     <p>
       Returns players whose character name or battletag matches the query parameter.<br><br>
-      <b>Request URL Format:</b> /api/player?query={query}
+      <b>Request URL Format:</b> /api/player?query={query}&limit={limit}
     </p>
     <form action="" method="get">
       <table>
@@ -67,4 +67,5 @@
 {% endblock %}
 {% block scripts %}
   <script src="{{ static('js/submitform.js') }}"></script>
+  <script src="{{ static('js/navbar.js') }}"></script>
 {% endblock %}
