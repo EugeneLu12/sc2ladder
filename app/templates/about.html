@@ -32,33 +32,33 @@
       Returns players whose character name or battletag matches the query parameter.<br><br>
       <b>Request URL Format:</b> /api/player?query={query}&limit={limit}
     </p>
-    <form action="" method="get">
-      <table>
-        <tr>
-          <th>Parameter</th>
-          <th>Data Type</th>
-          <th>Value</th>
-          <th>Description</th>
+ 
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Data Type</th>
+        <th>Value</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>query</td>
+        <td>string</td>
+        <td>
+          <input id="queryField" type="text" autocomplete="off">
+        </td>
+        <td>The player's character name or battletag</td>
+      </tr>
+      <tr>
+        <td>limit</td>
+        <td>int</td>  
+        <td>      
+          <input id="limitField" type="text" autocomplete="off">
+        </td>
+        <td>Number of results returned</td>
         </tr>
-        <tr>
-          <td>query</td>
-          <td>string</td>
-          <td>
-            <input id="queryField" type="text" autocomplete="off" name="query">
-          </td>
-          <td>The player's character name or battletag</td>
-        </tr>
-        <tr>
-          <td>limit</td>
-          <td>int</td>
-          <td>      
-            <input id="limitField" type="text" autocomplete="off" name="limit">
-          </td>
-          <td>Number of results returned</td>
-          </tr>
-      </table>
-      <input type="button" value="Make Request" onclick="make_request()">
-    </form>
+    </table>
+    <input type="button" value="Make Request" onclick="make_request()">
+
     <div class="result">
       <pre id="playerResponse"></pre>
     </div>

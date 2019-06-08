@@ -10,8 +10,7 @@ class EnumEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, (Rank, Race)):
             return str(obj)
-        else:
-            return super().default(obj)
+        return super().default(obj)
 
 
 def api_search(request):
