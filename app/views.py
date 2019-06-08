@@ -2,16 +2,23 @@ from django.db.models import Q
 from django.shortcuts import render
 from app.models import Player, Rank
 from app.serializers import PlayerSerializer
-from rest_framework import generics
+from rest_framework.generics import ListAPIView
+from rest_framework.exceptions import APIException
 
+class InvalidQueryException(APIException):
+    status_code = 400
+    default_detail = "invalid query"
 
-class PlayerList(generics.ListAPIView):
+class PlayerList(ListAPIView):
     serializer_class = PlayerSerializer
     def get_queryset(self):
         query = self.request.query_params.get('query')
-        name, bnet_id = query.split('#') if '#' in query else (query, None)
-        limit = int(self.request.query_params.get('limit', 25))
-        players = get_players(name, bnet_id, limit)
+        try:
+            name, bnet_id = query.split('#') if '#' in query else (query, None)
+            limit = int(self.request.query_params.get('limit', 25))
+            players = get_players(name, bnet_id, limit)
+        except:
+            raise InvalidQueryException
         return players
 
 
