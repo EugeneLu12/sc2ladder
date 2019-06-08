@@ -65,4 +65,4 @@ class Player(models.Model):
     players = PlayerManager()
 
     def __str__(self):
-        return f'{self.bnet_id} {self.race} MMR: {self.mmr}'
+        return self.id
