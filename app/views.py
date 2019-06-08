@@ -65,7 +65,7 @@ def ladder(request):
     if sort_by == 'mmr':
         players = region_players.order_by('-mmr')[start:end]
     else:
-        players = region_players.order_by('-rank')[start:end]
+        players = region_players.order_by('-rank', '-mmr')[start:end]
     pages_required = int(length / limit) + 1
     return render(request, 'search.html', {
         "players": players,
