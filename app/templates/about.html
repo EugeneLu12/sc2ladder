@@ -6,12 +6,66 @@
 {% endblock %}
 
 {% block content %}
-  <div class='text'>
-    <h1>
-      sc2Ladder is a website that displays the in-game ladders of StarCraft II and updates them in real time. <br><br>
-      It also has the unique feature of revealing an account's Battle Net ID, revealing the identity of some barcode accounts. <br><br>
-      The source code can be found <a href="https://github.com/YenFu1/sc2ladder">here.</a> <br><br>
-      All inquiries can be sent to <i>YenFu#4967</i> via private message on <i>Discord</i>.
-    </h1>
+  <div class='content'>
+    <h1>About</h1>
+    <p>
+      sc2Ladder is a web app that displays the in-game ladders of StarCraft II and updates them in real time.
+      It also has the unique feature of revealing an account's Battle Net ID, revealing the identity of some barcode accounts.<br><br>
+      The source code can be found <a href="https://github.com/YenFu1/sc2ladder">here.</a><br><br>
+      All inquiries can be sent to <i>YenFu#4967</i> via private message on <i>Discord</i>.<br><br>
+      Special thanks to <a href="https://github.com/tso">tso</a>, <a href="https://github.com/jtleague9">woopr</a>, and
+      <a href="https://github.com/WilliamStewart">Buster</a> for their contributions to this project.
+    </p>
   </div>
+
+  <div class="content">
+      <h1>API Documentation</h1>
+      <p>
+        The API Endpoints available all return a JSON object and have a quota of 10000 requests/hour.
+        Continuing to make requests after this quota is reached results in a 429 Error.<br><br>
+        All endpoints limit requests to 25 results returned by default but the limit can be modified to return up to 200 results.
+      </p>
+  </div>
+  <div class="content">
+    <h1>GET - Player</h1>
+    <p>
+      Returns players whose character name or battletag matches the query parameter.<br><br>
+      <b>Request URL Format:</b> /api/player?query={query}&limit={limit}
+    </p>
+ 
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Data Type</th>
+        <th>Value</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>query</td>
+        <td>string</td>
+        <td>
+          <input id="queryField" type="text" autocomplete="off">
+        </td>
+        <td>The player's character name or battletag</td>
+      </tr>
+      <tr>
+        <td>limit</td>
+        <td>int</td>  
+        <td>      
+          <input id="limitField" type="text" autocomplete="off">
+        </td>
+        <td>Number of results returned</td>
+        </tr>
+    </table>
+    <input type="button" value="Make Request" onclick="make_request()">
+
+    <div class="result">
+      <pre id="playerResponse"></pre>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ static('js/submitform.js') }}"></script>
+  <script src="{{ static('js/navbar.js') }}"></script>
 {% endblock %}
