@@ -1,10 +1,11 @@
 from django.conf import settings
-from django.db.models import Q
-from django.shortcuts import render
-from django.http import JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render
 
 from app.models import Player, Rank, Race
+
 
 class EnumEncoder(DjangoJSONEncoder):
     def default(self, obj):
@@ -21,7 +22,7 @@ def api_search(request):
 
 
 def get_players(request):
-    query = request.GET.get('query').strip()
+    query = request.GET.get('query', '').strip()
     name, bnet_id = query.split('#') if '#' in query else (query, None)
     try:
         limit = min(int(request.GET.get('limit')), settings.MAX_QUERY_LIMIT)

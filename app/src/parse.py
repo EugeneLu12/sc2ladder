@@ -1,5 +1,7 @@
 from typing import List
 
+from django.utils import timezone
+
 from app.models import Player
 
 
@@ -26,7 +28,8 @@ def parse_ladder(response_json, region) -> List[Player]:
                     wins=i.get('wins'),
                     losses=i.get('losses'),
                     clan=clan_tag,
-                    profile_id=profile_id
+                    profile_id=profile_id,
+                    modified_at=timezone.now()
                 ))
 
     return ladder_list
