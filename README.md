@@ -9,7 +9,9 @@ set to the appropriate values (`pipenv` will automatically load these env variab
 
 ```
 pipenv shell
+pipenv install
 python manage.py migrate
+python manage.py update_db
 python manage.py createsuperuser // optional
 python manage.py runserver
 ```

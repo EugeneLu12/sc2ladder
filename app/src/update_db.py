@@ -20,7 +20,7 @@ def update_all_for_region(region):
     for ladder in ladder_list:
         ladder = parse_ladder(ladder, region)
         Player.players.bulk_create(ladder, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True)
-        Player.players.bulk_update(ladder, ['mmr', 'wins', 'losses', 'clan', 'rank'],
+        Player.players.bulk_update(ladder, ['mmr', 'wins', 'losses', 'clan', 'rank', 'modified_at'],
                                    batch_size=settings.DB_BATCH_SIZE)
     loop.close()
 
