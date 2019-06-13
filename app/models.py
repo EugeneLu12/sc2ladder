@@ -21,6 +21,17 @@ class Race(Enum):
     RANDOM = 'Random'
 
 
+class Identity(models.Model):
+    alias = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30, null=True, blank=True)
+    last_name = models.CharField(max_length=30, null=True, blank=True)
+    created_at: datetime = models.DateTimeField(auto_now_add=True)
+    modified_at: datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.alias
+
+
 class PlayerManager(models.Manager):
     def create_player(self, realm: str, region: str, rank: Rank, username: str, bnet_id: str, race: str, mmr: int,
                       wins: int, losses: int, clan: str, profile_id: str, **extra_fields) -> 'Player':
@@ -57,9 +68,9 @@ class Player(models.Model):
     mmr: int = models.IntegerField()
     wins: int = models.IntegerField()
     losses: int = models.IntegerField()
-    clan: str = models.CharField(max_length=10, null=True)
+    clan: str = models.CharField(max_length=10, null=True, blank=True)
     profile_id: int = models.IntegerField()
-
+    identity = models.ForeignKey(Identity, null=True, blank=True, on_delete=models.SET_NULL)
     created_at: datetime = models.DateTimeField(auto_now_add=True)
     modified_at: datetime = models.DateTimeField(auto_now=True)
 
