@@ -32,8 +32,8 @@ def get_players(request):
     if bnet_id is not None:
         return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
     else:
-        bnet_or_name_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name)
-        return Player.players.filter(bnet_or_name_filter).order_by('-mmr')[:limit]
+        player_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name) | Q(identity__alias__iexact=name)
+        return Player.players.filter(player_filter).order_by('-mmr')[:limit]
 
 
 def index(request):
