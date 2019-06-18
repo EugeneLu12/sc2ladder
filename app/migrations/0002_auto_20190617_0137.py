@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='player',
             name='race',
-            field=enumfields.fields.EnumField(enum=app.models.Race, max_length=7),
+            field=enumfields.fields.EnumField(enum=app.models.player.Race, max_length=7),
         ),
         migrations.AddField(
             model_name='player',

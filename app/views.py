@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from app.models import Player, Rank, Race
+from app.models.player import Player, Rank, Race
 
 
 class EnumEncoder(DjangoJSONEncoder):

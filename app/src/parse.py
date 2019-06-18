@@ -2,7 +2,7 @@ from typing import List
 
 from django.utils import timezone
 
-from app.models import Player
+from app.models.player import Player
 
 
 def parse_ladder(response_json, region) -> List[Player]:
