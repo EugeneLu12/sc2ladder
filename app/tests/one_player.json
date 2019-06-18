@@ -1,0 +1,38 @@
+[
+  {
+    "league": {
+      "league_key": {
+        "league_id": 6
+      }
+    },
+    "team": [
+      {
+        "member": [
+          {
+            "legacy_link": {
+              "realm": 1,
+              "name": "avilo"
+            },
+            "character_link": {
+              "battle_tag": "avilo#1337",
+              "id": 12345679
+            },
+            "clan_link": {
+              "clan_tag": "aivNA"
+            },
+            "played_race_count": [
+              {
+                "race": {
+                  "en_US": "Terran"
+                }
+              }
+            ]
+          }
+        ],
+        "rating": 5678,
+        "wins": 32,
+        "losses": 18
+      }
+    ]
+  }
+]

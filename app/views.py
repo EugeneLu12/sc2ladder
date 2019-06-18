@@ -4,13 +4,15 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from app.models.player import Player, Rank, Race
+from app.models.player import Player, Rank, Race, Region
 
 
 class EnumEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, (Rank, Race)):
             return str(obj)
+        elif isinstance(obj, Region):
+            return str(obj).upper()
         return super().default(obj)
 
 
