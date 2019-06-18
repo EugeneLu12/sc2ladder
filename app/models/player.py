@@ -3,6 +3,8 @@ import datetime
 from django.db import models
 from enumfields import Enum, EnumIntegerField, EnumField
 
+from app.models.identity import Identity
+
 
 class Rank(Enum):
     BRONZE = 0
@@ -21,16 +23,10 @@ class Race(Enum):
     RANDOM = 'Random'
 
 
-class Identity(models.Model):
-    alias = models.CharField(max_length=30)
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=30, null=True, blank=True)
-    twitch = models.CharField(max_length=30, null=True, blank=True)
-    created_at: datetime = models.DateTimeField(auto_now_add=True)
-    modified_at: datetime = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.alias
+class Region(Enum):
+    US = 'US'
+    EU = 'EU'
+    KR = 'KR'
 
 
 class PlayerManager(models.Manager):
@@ -61,17 +57,20 @@ class PlayerManager(models.Manager):
 class Player(models.Model):
     id: str = models.CharField(max_length=50, primary_key=True, editable=False)
     realm: str = models.CharField(max_length=10)
-    region: str = models.CharField(max_length=10)
+    region: str = EnumField(Region, max_length=2)
     rank: Rank = EnumIntegerField(enum=Rank)
     username: str = models.CharField(max_length=30)
     bnet_id: str = models.CharField(max_length=30)
+
     race: Race = EnumField(Race, max_length=7)
     mmr: int = models.IntegerField()
     wins: int = models.IntegerField()
     losses: int = models.IntegerField()
-    clan: str = models.CharField(max_length=10, null=True, blank=True)
+    clan: str = models.CharField(max_length=10, null=True)
     profile_id: int = models.IntegerField()
+
     identity = models.ForeignKey(Identity, null=True, blank=True, on_delete=models.SET_NULL)
+
     created_at: datetime = models.DateTimeField(auto_now_add=True)
     modified_at: datetime = models.DateTimeField(auto_now=True)
 
