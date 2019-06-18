@@ -25,8 +25,8 @@ def update_all_for_region(region):
 
 def update_all():
     print('updating NA region')
-    update_all_for_region(Region.US.lower())
+    update_all_for_region(Region.US.value.lower())
     print('updating EU region')
-    update_all_for_region(Region.EU.lower())
+    update_all_for_region(Region.EU.value.lower())
     print('updating KR region')
-    update_all_for_region(Region.KR.lower())
+    update_all_for_region(Region.KR.value.lower())
