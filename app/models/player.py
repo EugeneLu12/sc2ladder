@@ -30,7 +30,7 @@ class Region(Enum):
 
 
 class PlayerManager(models.Manager):
-    def create_player(self, realm: str, region: str, rank: Rank, username: str, bnet_id: str, race: str, mmr: int,
+    def create_player(self, realm: str, region: Region, rank: Rank, username: str, bnet_id: str, race: Race, mmr: int,
                       wins: int, losses: int, clan: str, profile_id: str, **extra_fields) -> 'Player':
         """
         Note that this doesn't actually save the player in the DB. It simply returns a Player object.
