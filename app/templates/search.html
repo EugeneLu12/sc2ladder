@@ -43,7 +43,7 @@
     <tbody>
       {% for player in players %}
         <tr>
-          <td>{{ player.region }}</td>
+          <td>{{ player.region.value }}</td>
           <td><img src="static/assets/img/{{ player.rank }}.png" class="icon"></td>
           <td>{% if player.clan %}[{{ player.clan }}]{% endif %}{{ player.username[:player.username.index('#')] }}</td>
           <td>{{ player.bnet_id }}</td>
