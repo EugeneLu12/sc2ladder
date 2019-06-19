@@ -12,7 +12,7 @@ class EnumEncoder(DjangoJSONEncoder):
         if isinstance(obj, (Rank, Race)):
             return str(obj)
         elif isinstance(obj, Region):
-            return str(obj).upper()
+            return obj.value
         return super().default(obj)
 
 
