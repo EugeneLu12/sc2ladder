@@ -12,7 +12,7 @@ async def return_this(this):
 
 
 class UpdateDbTestCase(TestCase):
-    @patch('app.src.fetch.get_all_ladder_responses_for_region')
+    @patch('app.src.update_db.fetch_ladders')
     def test_one_player(self, mock_get):
         with open('app/tests/one_player.json') as f:
             mock_get.return_value = return_this(json.load(f))

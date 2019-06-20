@@ -13,7 +13,7 @@ def parse_ladder(response_json, region) -> List[Player]:
                     realm = member['legacy_link']['realm']
                     race = k['race']['en_US'].capitalize()
                     character_name = member['legacy_link']['name']
-                    bnet_id = ['character_link']['battle_tag']
+                    bnet_id = member['character_link']['battle_tag']
                     profile_id = member['character_link']['id']
                     clan_tag = member.get('clan_link', {}).get('clan_tag')
                     mmr = team['rating']
