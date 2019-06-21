@@ -35,24 +35,46 @@ class DiscordExceptionHandler(logging.Handler):
 
         reporter = ExceptionReporter(request, *exc_info)
         data = reporter.get_traceback_data()
-        requests.post(settings.DISCORD_WEBHOOK, json={
+
+        location = f' at {request.path_info}' if request else ''
+        heading = f"{data.get('exception_type', 'Report')}{location}"
+        exception_value = data.get('exception_value', 'No exception message supplied')
+        fields = [
+            {
+                'name': 'Subject',
+                'value': subject,
+                'inline': True
+            },
+            {
+                'name': heading,
+                'value': exception_value,
+                'inline': False
+            },
+
+        ]
+
+        if request:
+            if request.GET != {}:
+                fields.append({
+                    'name': 'GET parameters',
+                    'value': str(dict(request.GET)),
+                    'inline': False
+                })
+            if request.POST != {}:
+                fields.append({
+                    'name': 'POST parameters',
+                    'value': str(dict(request.POST)),
+                    'inline': False
+                })
+
+        json = {
             'embeds': [{
                 'title': 'SC2 Ladder Exception',
-                'fields': [
-                    {
-                        'name': 'Subject',
-                        'value': subject,
-                        'inline': False
-                    },
-                    {
-                        'name': 'Message',
-                        'value': data.get('exception_value', 'No message provided'),
-                        'inline': False
-                    },
-
-                ],
+                'fields': fields,
                 'footer': {
                     'text': ''
                 }
             }]
-        })
+        }
+
+        requests.post(settings.DISCORD_WEBHOOK, json=json)
