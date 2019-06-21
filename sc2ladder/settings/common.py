@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'waffle',
 ]
 
 MIDDLEWARE = [
@@ -26,6 +27,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'waffle.middleware.WaffleMiddleware',
 ]
 
 ROOT_URLCONF = 'sc2ladder.urls'
@@ -37,7 +39,9 @@ TEMPLATES = [
         'APP_DIRS': False,
         'OPTIONS': {
             'environment': 'sc2ladder.jinja2.environment',
-            'extensions': [],
+            'extensions': [
+                'waffle.jinja.WaffleExtension',
+            ],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
