@@ -3,6 +3,7 @@ import logging
 import requests
 from django.conf import settings
 from django.views.debug import ExceptionReporter
+from waffle import flag_is_active
 
 
 class DiscordExceptionHandler(logging.Handler):
@@ -21,6 +22,9 @@ class DiscordExceptionHandler(logging.Handler):
                 record.getMessage()
             )
             request = None
+
+        if not flag_is_active(request, 'LOG_TO_DISCORD'):
+            return
 
         subject = subject.replace('\n', '\\n').replace('\r', '\\r')
 
