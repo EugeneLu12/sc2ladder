@@ -24,17 +24,26 @@ def api_search(request):
 
 
 def get_players(request):
-    query = request.GET.get('query', '').strip()
-    name, bnet_id = query.split('#') if '#' in query else (query, None)
     try:
         limit = min(int(request.GET.get('limit')), settings.MAX_QUERY_LIMIT)
     except (ValueError, TypeError):
         limit = settings.DEFAULT_QUERY_LIMIT
 
-    if bnet_id is not None:
+    query: str = request.GET.get('query', '').strip()
+    if '#' in query:
+        # Probably trying to search by battlenet e.g. avilo#1337.
+        name, bnet_id = query.split('#')
         return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
+    elif query.startswith('[') and query.endswith(']'):
+        # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
+        # limited by Sc2.
+        clan = query[1:-1]
+        return Player.players.filter(clan=clan).order_by('-mmr')
     else:
-        player_filter = Q(bnet_id__istartswith=name) | Q(username__istartswith=name) | Q(identity__alias__iexact=name)
+        # Probably just searching by name e.g. avilo.
+        player_filter = Q(bnet_id__istartswith=query) | \
+                        Q(username__istartswith=query) | \
+                        Q(identity__alias__iexact=query)
         return Player.players.filter(player_filter).order_by('-mmr')[:limit]
 
 
