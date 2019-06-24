@@ -66,7 +66,7 @@ class Player(models.Model):
     mmr: int = models.IntegerField()
     wins: int = models.IntegerField()
     losses: int = models.IntegerField()
-    clan: str = models.CharField(max_length=10, null=True)
+    clan: str = models.CharField(max_length=10, null=True, blank=True)
     profile_id: int = models.IntegerField()
 
     identity = models.ForeignKey(Identity, null=True, blank=True, on_delete=models.SET_NULL)
