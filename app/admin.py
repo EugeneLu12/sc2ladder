@@ -7,9 +7,10 @@ from app.models.player_snapshot import PlayerSnapshot
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('clan', 'username', 'bnet_id', 'identity', 'mmr', 'race')
+    list_display = ('username', 'bnet_id', 'clan', 'identity', 'mmr', 'race')
     readonly_fields = ('created_at', 'modified_at')
     search_fields = ('username', 'bnet_id', 'identity__alias')
+    ordering = ('-mmr',)
 
 
 @admin.register(PlayerSnapshot)
