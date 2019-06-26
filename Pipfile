@@ -15,6 +15,7 @@ psycopg2 = "*"
 django-heroku = "*"
 gunicorn = "*"
 django-waffle = "*"
+"django-constance[database]" = "*"
 
 [requires]
 python_version = "3.7"

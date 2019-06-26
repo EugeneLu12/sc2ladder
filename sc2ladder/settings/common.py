@@ -8,6 +8,11 @@ BLIZZARD_CLIENT_SECRET = os.environ['BLIZZARD_CLIENT_SECRET']
 DEFAULT_QUERY_LIMIT = 25
 MAX_QUERY_LIMIT = 200
 
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_CONFIG = {
+    'STEP_SIZE': (20, "Number of ladders to process into the database at once. Seperate from DB_BATCH_SIZE.", int)
+}
+
 INSTALLED_APPS = [
     'app',
     'django.contrib.admin',
@@ -17,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'waffle',
+    'constance',
+    'constance.backends.database',
 ]
 
 MIDDLEWARE = [

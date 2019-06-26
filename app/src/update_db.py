@@ -5,6 +5,8 @@ from django.conf import settings
 from app.models.player import Player, Region
 from app.src.parse import parse_ladder, parse_ladder_legacy
 from app.src.s2ladderapi import BlizzSession
+from constance import config
+
 
 
 async def fetch_ladders(region=None):
@@ -20,11 +22,14 @@ async def fetch_ladders(region=None):
 
 
 def update_database(region, ladder_list):
-    for ladder in ladder_list:
-        ladder = parse_ladder(ladder, region)
-        Player.players.bulk_create(ladder, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True)
+    step_size = config.STEP_SIZE
+    for i in range(0, len(ladder_list), step_size):
+        update_list = []
+        for ladder in ladder_list[i:i+step_size]:
+            update_list += parse_ladder(ladder, region)
+        Player.players.bulk_create(update_list, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True)
         Player.players.bulk_update(
-            ladder,
+            update_list,
             ['bnet_id', 'username', 'mmr', 'wins', 'losses', 'clan', 'rank', 'modified_at'],
             batch_size=settings.DB_BATCH_SIZE
         )
