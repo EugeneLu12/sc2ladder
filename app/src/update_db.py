@@ -8,7 +8,6 @@ from app.src.s2ladderapi import BlizzSession
 from constance import config
 
 
-
 async def fetch_ladders(region=None):
     loop = asyncio.get_event_loop()
     blz = BlizzSession(settings.BLIZZARD_CLIENT_ID, settings.BLIZZARD_CLIENT_SECRET, loop=loop)

@@ -46,12 +46,12 @@ def parse_ladder_legacy(response_json, region) -> List[Player]:
             try:
                 realm = member['realm']
                 race = member['favoriteRace']
-                character_name = member['displayName']  # does not include discriminator (e.g. #1234)
+                character_name = member['displayName'] + '#0000'  # must include dummy discriminator for new players
                 bnet_id = None
                 profile_id = int(member['id'])
                 clan_tag = member.get('clanTag')
-                mmr = team.get['mmr']
-                wins = team.get['wins']
+                mmr = team['mmr']
+                wins = team['wins']
                 losses = team['losses']
                 ladder_list.append(Player.players.create_player(
                     realm=realm,
