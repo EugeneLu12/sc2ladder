@@ -60,7 +60,7 @@ class Player(models.Model):
     region: str = EnumField(Region, max_length=2)
     rank: Rank = EnumIntegerField(enum=Rank)
     username: str = models.CharField(max_length=30)
-    bnet_id: str = models.CharField(max_length=30)
+    bnet_id: str = models.CharField(max_length=30, null=True, blank=True)
 
     race: Race = EnumField(Race, max_length=7)
     mmr: int = models.IntegerField()
