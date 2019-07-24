@@ -38,7 +38,7 @@ def get_players(request):
         # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
         # limited by Sc2.
         clan = query[1:-1]
-        return Player.players.filter(clan=clan).order_by('-mmr')
+        return Player.players.filter(clan__iexact=clan).order_by('-mmr')
     else:
         # Probably just searching by name e.g. avilo.
         player_filter = Q(bnet_id__istartswith=query) | \
