@@ -45,7 +45,7 @@
         <tr>
           <td>{{ player.region.value }}</td>
           <td><img src="static/assets/img/{{ player.rank }}.png" class="icon"></td>
-          <td>{% if player.clan %}[{{ player.clan }}]{% endif %}{{ player.username[:player.username.index('#')] }}</td>
+          <td>{% if player.clan %}[{{ player.clan }}]{% endif %}{% if player.username|length > 0 %}{{ player.username[:player.username.index('#')] }}{% endif %}</td>
           <td>{{ player.bnet_id }}</td>
           <td><img src="static/assets/img/{{ player.race }}.png" class="icon"></td>
           <td>{{ player.mmr }}</td>
