@@ -65,7 +65,7 @@ def ladder(request):
     region = request.GET.get('region', 'us')
     rank = request.GET.get('rank', 'all')
     sort_by = request.GET.get('sort', 'mmr')
-    page_number = int(request.GET.get('page'), 1)
+    page_number = int(request.GET.get('page', 1))
     region_query = region if region != 'all' else ''
     rank_query = Rank[rank.upper()].value if rank != 'all' else ''
 
