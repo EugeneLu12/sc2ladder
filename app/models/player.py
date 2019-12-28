@@ -35,6 +35,10 @@ class PlayerManager(models.Manager):
         """
         Note that this doesn't actually save the player in the DB. It simply returns a Player object.
         """
+        if int(mmr) > 2147483646:
+            mmr = 2147483646
+        elif int(mmr) < -2147483647:
+            mmr = -2147483647
         unique_id = f'{realm}/{region}/{profile_id}-{race}'
         player = self.model(
             id=unique_id,
