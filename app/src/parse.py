@@ -5,10 +5,10 @@ from app.models.player import Player, Rank
 
 def parse_ladder(response_json, region) -> List[Player]:
     ladder_list = []
-    rank = int(response_json['league']['league_key']['league_id'])
+    rank = int(response_json.get('league', {}).get('league_key', {}).get('league_id', 0))
     for team in response_json.get('team', []):
-        for member in team['member']:
-            for k in member['played_race_count']:
+        for member in team.get('member', []):
+            for k in member.get('played_race_count', []):
                 try:
                     realm = member['legacy_link']['realm']
                     race = k['race']['en_US'].capitalize()
