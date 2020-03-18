@@ -10,7 +10,8 @@ MAX_QUERY_LIMIT = 200
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 CONSTANCE_CONFIG = {
-    'STEP_SIZE': (20, "Number of ladders to process into the database at once. Seperate from DB_BATCH_SIZE.", int)
+    'STEP_SIZE': (20, "Number of ladders to process into the database at once. Seperate from DB_BATCH_SIZE.", int),
+    'AGE_LIMIT': (30, "Hide players who haven't been updated in this number of days.", int),
 }
 
 INSTALLED_APPS = [
