@@ -1,5 +1,5 @@
 from constance import config
-from datetime import datetime, timedelta
+from django.utils import timezone
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
@@ -19,9 +19,8 @@ class EnumEncoder(DjangoJSONEncoder):
 
 
 def age_filter(days=config.AGE_LIMIT):
-    print(days)
-    now = datetime.now()
-    days_ago = now - timedelta(days=days)
+    now = timezone.now()
+    days_ago = now - timezone.timedelta(days=days)
     return Q(modified_at__gte=days_ago)
 
 
