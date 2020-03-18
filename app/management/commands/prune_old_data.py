@@ -11,4 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         now = datetime.now()
         thirty_days_ago = now - timedelta(days=30)
-        Player.players.filter(updated_at__lte=thirty_days_ago).delete()
+        Player.players.filter(modified_at__lte=thirty_days_ago).delete()
