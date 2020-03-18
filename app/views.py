@@ -1,3 +1,5 @@
+from constance import config
+from django.utils import timezone
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
@@ -14,6 +16,12 @@ class EnumEncoder(DjangoJSONEncoder):
         elif isinstance(obj, Region):
             return obj.value
         return super().default(obj)
+
+
+def age_filter(days=config.AGE_LIMIT):
+    now = timezone.now()
+    days_ago = now - timezone.timedelta(days=days)
+    return Q(modified_at__gte=days_ago)
 
 
 def api_search(request):
@@ -33,18 +41,18 @@ def get_players(request):
     if '#' in query:
         # Probably trying to search by battlenet e.g. avilo#1337.
         name, bnet_id = query.split('#')
-        return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
+        return Player.players.filter(bnet_id__iexact=f'{name}#{bnet_id}').filter(age_filter()).order_by('-mmr')[:limit]
     elif query.startswith('[') and query.endswith(']'):
         # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
         # limited by Sc2.
         clan = query[1:-1]
-        return Player.players.filter(clan__iexact=clan).order_by('-mmr')
+        return Player.players.filter(clan__iexact=clan).filter(age_filter()).order_by('-mmr')
     else:
         # Probably just searching by name e.g. avilo.
         player_filter = Q(bnet_id__istartswith=query) | \
                         Q(username__istartswith=query) | \
                         Q(identity__alias__iexact=query)
-        return Player.players.filter(player_filter).order_by('-mmr')[:limit]
+        return Player.players.filter(player_filter).filter(age_filter()).order_by('-mmr')[:limit]
 
 
 def index(request):
@@ -73,7 +81,7 @@ def ladder(request):
     start = (page_number - 1) * limit
     end = start + limit
     region_players = Player.players.filter(region__icontains=region_query,
-                                           rank__icontains=rank_query)
+                                           rank__icontains=rank_query).filter(age_filter())
     length = region_players.count()
     if sort_by == 'mmr':
         players = region_players.order_by('-mmr')[start:end]
