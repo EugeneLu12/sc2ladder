@@ -16,6 +16,8 @@ django-heroku = "*"
 gunicorn = "*"
 django-waffle = "*"
 "django-constance[database]" = "*"
+psycopg2-binary = "*"
+uplink = "*"
 
 [requires]
 python_version = "3.7"
