@@ -25,9 +25,58 @@ def age_filter(days=config.AGE_LIMIT):
 
 
 def api_search(request):
-    players = list(
-        get_players(request).values('realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-                                    'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+    try:
+        limit = min(int(request.GET.get('limit')), settings.MAX_QUERY_LIMIT)
+    except (ValueError, TypeError):
+        limit = settings.DEFAULT_QUERY_LIMIT
+    name = request.GET.get('name')
+    bnet = request.GET.get('bnet')
+    query = request.GET.get('query')
+    race = request.GET.get('race')
+    region = request.GET.get('region')
+    player_filter = Q()
+    if name:
+        player_filter &= Q(username__iexact=name)
+    elif bnet:
+        player_filter &= Q(bnet_id__iexact=bnet)
+    elif query:
+        q_filter = Q(bnet_id__istartswith=query) | \
+                    Q(username__istartswith=query) | \
+                    Q(identity__alias__iexact=query)
+        player_filter &= q_filter
+    if race:
+        player_filter &= Q(race__iexact=race)
+    if region:
+        player_filter &= Q(region__iexact=region)
+    players = list(Player.players.filter(player_filter).filter(age_filter()).order_by('-mmr')[:limit].values(
+        'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
+        'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+    return JsonResponse(players, safe=False, encoder=EnumEncoder)
+
+
+def api_player(request, region, realm, playerid):
+    try:
+        limit = min(int(request.GET.get('limit')), settings.MAX_QUERY_LIMIT)
+    except (ValueError, TypeError):
+        limit = settings.DEFAULT_QUERY_LIMIT
+    r_dict = {1: Region.US.value, 2: Region.EU.value, 3: Region.KR.value}
+    player_filter = Q(region=r_dict[region], realm=realm, profile_id=playerid)
+    players = list(Player.players.filter(player_filter).filter(age_filter()).order_by('-mmr')[:limit].values(
+                                                    'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
+                                                    'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+    return JsonResponse(players, safe=False, encoder=EnumEncoder)
+
+
+def api_clans(request, clan_name):
+    try:
+        limit = min(int(request.GET.get('limit')), settings.MAX_QUERY_LIMIT)
+    except (ValueError, TypeError):
+        limit = settings.DEFAULT_QUERY_LIMIT
+    player_filter = Q(clan__iexact=clan_name)
+    player_filter &= Q(clan__iexact=clan_name)
+    players = list(Player.players.filter(player_filter).filter(age_filter()).order_by('-mmr')[:limit].values(
+                            'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
+                            'mmr', 'wins', 'losses', 'clan', 'profile_id'))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
