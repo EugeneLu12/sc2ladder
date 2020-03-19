@@ -70,3 +70,38 @@ def parse_ladder_legacy(response_json, region) -> List[Player]:
             except:
                 pass
     return ladder_list
+
+
+def parse_public_players(player_list) -> List[Player]:
+    league_dict = {
+        "grandmaster": Rank.GRANDMASTER.value,
+        "master": Rank.MASTER.value,
+        "diamond": Rank.DIAMOND.value,
+        "platinum": Rank.PLATINUM.value,
+        "gold": Rank.GOLD.value,
+        "silver": Rank.SILVER.value,
+        "bronze": Rank.BRONZE.value,
+    }
+    r_dict = {1: "US", 2: "EU", 3: "KR"}
+    ladder_list = list()
+    for p in player_list:
+        if p.race is None or p.username is None:
+            continue
+        try:
+            ladder_list.append(Player.players.create_player(
+                realm=p.realm,
+                region=r_dict[p.region],
+                rank=league_dict[p.league],
+                username=p.username,
+                bnet_id=None,
+                race=p.race.capitalize(),
+                mmr=p.mmr,
+                wins=p.wins,
+                losses=p.losses,
+                clan=p.clan_tag,
+                profile_id=p.profile_id,
+                modified_at=timezone.now())
+            )
+        except:
+            pass
+    return ladder_list

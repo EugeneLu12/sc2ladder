@@ -3,6 +3,7 @@ from django.contrib import admin
 from app.models.identity import Identity
 from app.models.player import Player
 from app.models.player_snapshot import PlayerSnapshot
+from app.models.ladder import Ladder
 
 
 @admin.register(Player)
@@ -26,3 +27,10 @@ class IdentityAdmin(admin.ModelAdmin):
     list_display = ('alias', 'first_name', 'last_name')
     readonly_fields = ('created_at', 'modified_at')
     search_fields = ('alias', 'first_name', 'last_name')
+
+
+@admin.register(Ladder)
+class LadderAdmin(admin.ModelAdmin):
+    list_display = ('rank', 'ladder_id', 'region', 'realm', 'profile_id')
+    readonly_fields = ('created_at', 'modified_at')
+    search_fields = ('rank', 'ladder_id', 'profile_id', 'region')
