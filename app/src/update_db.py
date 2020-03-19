@@ -95,8 +95,10 @@ def fetch_public_ladders(region, league=None):
         "silver": Rank.SILVER.value,
         "bronze": Rank.BRONZE.value,
     }
-
-    ladder_filter = Q(rank=league_dict[league], region=region)
+    if league is not None:
+        ladder_filter = Q(rank=league_dict[league], region=region)
+    else:
+        ladder_filter = Q(region=region)
     ladder = Ladder.objects.filter(ladder_filter).order_by('?').first()
     realm, profile_id, ladder_id = None, None, None
     if ladder:
