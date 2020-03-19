@@ -32,13 +32,13 @@
       <tr>
         <th>Region</th>
         <th>Rank</th>
-        <th>Character Name</th>
-        <th>Battle Net ID</th>
+        <th>Username</th>
+        <th>BattleTag</th>
         <th>Race</th>
         <th>MMR</th>
         <th>Wins</th>
         <th>Losses</th>
-        <th>Last Modified At</th>
+        <th>Updated</th>
       </tr>
     </thead>
     <tbody>
@@ -52,7 +52,7 @@
           <td>{{ player.mmr }}</td>
           <td>{{ player.wins }}</td>
           <td>{{ player.losses }}</td>
-          <td>{{ player.modified_at.strftime('%Y-%m-%d') }}</td>
+          <td>{{ updated_ago(player.modified_at) }}</td>
         </tr>
       {% endfor %}
     </tbody>
