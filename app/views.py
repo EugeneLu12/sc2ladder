@@ -81,8 +81,7 @@ def get_players(request):
     query: str = request.GET.get('query', '').strip()
     if '#' in query:
         # Probably trying to search by battlenet e.g. avilo#1337.
-        name, bnet_id = query.split('#')
-        return Player.actives.filter(bnet_id__iexact=f'{name}#{bnet_id}').order_by('-mmr')[:limit]
+        return Player.actives.filter(bnet_id__iexact=query).order_by('-mmr')[:limit]
     elif query.startswith('[') and query.endswith(']'):
         # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
         # limited by Sc2.
