@@ -1,9 +1,10 @@
 import datetime
-
+from django.utils import timezone
 from django.db import models
 from enumfields import Enum, EnumIntegerField, EnumField
 
 from app.models.identity import Identity
+from constance import config
 
 
 class Rank(Enum):
@@ -27,6 +28,18 @@ class Region(Enum):
     US = 'US'
     EU = 'EU'
     KR = 'KR'
+
+
+def age_filter(days=config.AGE_LIMIT):
+    now = timezone.now()
+    days_ago = now - timezone.timedelta(days=days)
+    return models.Q(modified_at__gte=days_ago)
+
+
+class ActivePlayerManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(age_filter())
 
 
 class PlayerManager(models.Manager):
@@ -79,6 +92,7 @@ class Player(models.Model):
     modified_at: datetime = models.DateTimeField(auto_now=True)
 
     players = PlayerManager()
+    actives = ActivePlayerManager()
 
     def __str__(self):
         return self.id
