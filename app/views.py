@@ -50,7 +50,7 @@ def api_search(request):
         player_filter &= Q(region__iexact=region)
     players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
         'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-        'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+        'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
@@ -63,7 +63,7 @@ def api_player(request, region, realm, playerid):
     player_filter = Q(region=r_dict[region], realm=realm, profile_id=playerid)
     players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
                                                     'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-                                                    'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+                                                    'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
@@ -76,7 +76,7 @@ def api_clans(request, clan_name):
     player_filter &= Q(clan__iexact=clan_name)
     players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
                             'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-                            'mmr', 'wins', 'losses', 'clan', 'profile_id'))
+                            'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 

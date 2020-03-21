@@ -11,4 +11,5 @@ class ApiTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), [
             {'realm': '1', 'region': 'US', 'rank': 'Grandmaster', 'username': 'avilo', 'bnet_id': 'avilo#1337',
-             'race': 'Terran', 'mmr': 5666, 'wins': 30, 'losses': 0, 'clan': 'aviNA', 'profile_id': 123456789}])
+             'race': 'Terran', 'mmr': 5666, 'wins': 30, 'losses': 0, 'clan': 'aviNA', 'profile_id': 123456789,
+             'alias': None}])
