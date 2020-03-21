@@ -6,6 +6,8 @@ from enumfields import Enum, EnumIntegerField, EnumField
 from app.models.identity import Identity
 from constance import config
 
+BNET_URI = "battlenet:://starcraft/profile/"
+
 
 class Rank(Enum):
     BRONZE = 0

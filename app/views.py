@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from app.models.player import Player, Rank, Race, Region
+from app.models.player import Player, Rank, Race, Region, BNET_URI
 
 
 class EnumEncoder(DjangoJSONEncoder):
@@ -26,16 +26,24 @@ def api_search(request):
     query = request.GET.get('query')
     race = request.GET.get('race')
     region = request.GET.get('region')
+    game_link = request.GET.get('gamelink')
     player_filter = Q()
     if name:
         player_filter &= Q(username__iexact=name)
     elif bnet:
         player_filter &= Q(bnet_id__iexact=bnet)
     elif query:
-        q_filter = Q(bnet_id__istartswith=query) | \
-                    Q(username__istartswith=query) | \
-                    Q(identity__alias__iexact=query)
-        player_filter &= q_filter
+        if query.startswith(BNET_URI):
+            game_link = query.replace(BNET_URI, '')
+            player_filter = Q(game_link=game_link)
+        else:
+            q_filter = Q(bnet_id__istartswith=query) | \
+                        Q(username__istartswith=query) | \
+                        Q(identity__alias__iexact=query)
+            player_filter &= q_filter
+    elif game_link:
+        game_link = game_link.replace(BNET_URI, '')
+        player_filter &= Q(game_link=game_link)
     if race:
         player_filter &= Q(race__iexact=race)
     if region:
@@ -82,8 +90,8 @@ def get_players(request):
     if '#' in query:
         # Probably trying to search by battlenet e.g. avilo#1337.
         player_filter = Q(bnet_id__iexact=query)
-    elif query.startswith('battlenet:://starcraft/profile/'):
-        game_link = query.replace('battlenet:://starcraft/profile/', '')
+    elif query.startswith(BNET_URI):
+        game_link = query.replace(BNET_URI, '')
         player_filter = Q(game_link=game_link)
     elif query.startswith('[') and query.endswith(']'):
         # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
