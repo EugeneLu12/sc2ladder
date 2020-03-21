@@ -87,7 +87,7 @@ class Player(models.Model):
     profile_id: int = models.IntegerField()
 
     identity = models.ForeignKey(Identity, null=True, blank=True, on_delete=models.SET_NULL)
-
+    game_link = models.CharField(max_length=25, null=True, blank=True)  # prepend with battlenet:://starcraft/profile/
     created_at: datetime = models.DateTimeField(auto_now_add=True)
     modified_at: datetime = models.DateTimeField(auto_now=True)
 

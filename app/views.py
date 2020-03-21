@@ -81,18 +81,21 @@ def get_players(request):
     query: str = request.GET.get('query', '').strip()
     if '#' in query:
         # Probably trying to search by battlenet e.g. avilo#1337.
-        return Player.actives.filter(bnet_id__iexact=query).order_by('-mmr')[:limit]
+        player_filter = Q(bnet_id__iexact=query)
+    elif query.startswith('battlenet:://starcraft/profile/'):
+        game_link = query.replace('battlenet:://starcraft/profile/', '')
+        player_filter = Q(game_link=game_link)
     elif query.startswith('[') and query.endswith(']'):
         # Probably trying to search by clan e.g. [aviNA]. We don't limit this since it's automatically
         # limited by Sc2.
         clan = query[1:-1]
-        return Player.actives.filter(clan__iexact=clan).order_by('-mmr')
+        player_filter = Q(clan__iexact=clan)
     else:
         # Probably just searching by name e.g. avilo.
         player_filter = Q(bnet_id__istartswith=query) | \
                         Q(username__istartswith=query) | \
                         Q(identity__alias__iexact=query)
-        return Player.actives.filter(player_filter).order_by('-mmr')[:limit]
+    return Player.actives.filter(player_filter).order_by('-mmr')[:limit]
 
 
 def index(request):
