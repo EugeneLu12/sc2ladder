@@ -41,7 +41,7 @@ def age_filter(days=config.AGE_LIMIT):
 class ActivePlayerManager(models.Manager):
 
     def get_queryset(self):
-        return super().get_queryset().filter(age_filter())
+        return super().get_queryset().filter(age_filter()).annotate(alias=models.F('identity__alias'))
 
 
 class PlayerManager(models.Manager):
