@@ -7,7 +7,7 @@ from django.test import TestCase
 from app.models.player import Player, Race, Rank, Region
 
 
-async def return_this(this):
+def return_this(this):
     return this
 
 
