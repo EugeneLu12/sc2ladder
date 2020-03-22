@@ -3,7 +3,6 @@ from django.contrib import admin
 from app.models.identity import Identity
 from app.models.ladder import Ladder
 from app.models.player import Player
-from app.models.player_snapshot import PlayerSnapshot
 
 
 @admin.register(Player)
@@ -12,14 +11,6 @@ class PlayerAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "modified_at")
     search_fields = ("username", "bnet_id", "identity__alias")
     ordering = ("-mmr",)
-
-
-@admin.register(PlayerSnapshot)
-class PlayerSnapshotAdmin(admin.ModelAdmin):
-    raw_id_fields = ("player",)
-    list_display = ("player", "username", "bnet_id", "mmr")
-    readonly_fields = ("created_at", "modified_at")
-    search_fields = ("username", "bnet_id")
 
 
 @admin.register(Identity)

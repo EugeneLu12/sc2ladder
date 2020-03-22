@@ -1,6 +1,7 @@
 import datetime
 
 from constance import config
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 from enumfields import Enum, EnumField, EnumIntegerField
@@ -112,6 +113,8 @@ class Player(models.Model):
     game_link = models.CharField(
         max_length=25, null=True, blank=True
     )  # prepend with battlenet:://starcraft/profile/
+    mmr_history = JSONField(default=dict)
+
     created_at: datetime = models.DateTimeField(auto_now_add=True)
     modified_at: datetime = models.DateTimeField(auto_now=True)
 
