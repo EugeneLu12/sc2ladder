@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from app.models.player import Player, Rank, Race, Region, BNET_URI
+from app.models.player import Player, Rank, Race, Region, BNET_URI, age_filter
 
 
 class EnumEncoder(DjangoJSONEncoder):
@@ -14,6 +14,10 @@ class EnumEncoder(DjangoJSONEncoder):
         elif isinstance(obj, Region):
             return obj.value
         return super().default(obj)
+
+
+common_values = ['realm', 'region', 'rank', 'username', 'bnet_id', 'race',
+                 'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias']
 
 
 def api_search(request):
@@ -48,9 +52,7 @@ def api_search(request):
         player_filter &= Q(race__iexact=race)
     if region:
         player_filter &= Q(region__iexact=region)
-    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
-        'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-        'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
+    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(*common_values))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
@@ -61,9 +63,7 @@ def api_player(request, region, realm, playerid):
         limit = settings.DEFAULT_QUERY_LIMIT
     r_dict = {1: Region.US.value, 2: Region.EU.value, 3: Region.KR.value}
     player_filter = Q(region=r_dict[region], realm=realm, profile_id=playerid)
-    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
-                                                    'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-                                                    'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
+    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(*common_values))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
@@ -74,9 +74,18 @@ def api_clans(request, clan_name):
         limit = settings.DEFAULT_QUERY_LIMIT
     player_filter = Q(clan__iexact=clan_name)
     player_filter &= Q(clan__iexact=clan_name)
-    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(
-                            'realm', 'region', 'rank', 'username', 'bnet_id', 'race',
-                            'mmr', 'wins', 'losses', 'clan', 'profile_id', 'alias'))
+    players = list(Player.actives.filter(player_filter).order_by('-mmr')[:limit].values(*common_values))
+    return JsonResponse(players, safe=False, encoder=EnumEncoder)
+
+
+def api_grandmaster(request, region):
+    player_filter = Q(rank=Rank.GRANDMASTER, region=region.upper())
+    # filter out gm dropouts who haven't yet been updated
+    players = list(Player.actives.filter(player_filter).filter(age_filter(days=0.1)).order_by('-mmr').values(
+                                                                                                        *common_values))
+    # if no players were updated within 2.4 hours then we had an updating problem, so just return what we currently have
+    if len(players) < 1:
+        players = list(Player.actives.filter(player_filter).order_by('-mmr').values(*common_values))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
