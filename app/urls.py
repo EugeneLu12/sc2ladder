@@ -9,5 +9,6 @@ urlpatterns = [
     path('about', about, name='about'),
     path('api/player', api_search, name='api'),
     path('api/player/<int:region>/<int:realm>/<int:playerid>', api_player, name='api-player'),
-    path('api/clans/<str:clan_name>', api_clans, name='api-clans')
+    path('api/clans/<str:clan_name>', api_clans, name='api-clans'),
+    path('api/grandmaster/<str:region>', api_grandmaster, name='api-grandmaster')
 ]
