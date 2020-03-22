@@ -4,19 +4,21 @@ website for StarCraft II ladders
 
 ## Development
 
-First create a `.env` file with `BLIZZARD_CLIENT_ID` and `BLIZZARD_CLIENT_SECRET`
-set to the appropriate values (`pipenv` will automatically load these env variables when you do `pipenv shell`)
-
 ```
-pipenv shell
-pipenv install
+poetry shell
+poetry install
 python manage.py migrate
 python manage.py update_db
 python manage.py createsuperuser // optional
 python manage.py runserver
 ```
 
+Run `poetry run task style` to format files before making a PR.
+
 ## Deploying
+
+When changing dependencies run `poetry run task requirements` since heroku doesn't
+support pyproject.toml files yet.
 
 In general heroku should automatically deploy from master, but if for some
 reason that bugs out or you want to deploy a change that's not on GitHub's

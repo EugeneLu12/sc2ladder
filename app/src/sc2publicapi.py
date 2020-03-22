@@ -4,7 +4,6 @@ BASE_URL = "https://starcraft2.com/en-us/api/sc2/"
 
 
 class SC2PublicAPI(uplink.Consumer):
-
     @uplink.get("static/profile/{region}")
     def get_static_profile(self, region: int):
         """Gets static profile"""
@@ -30,4 +29,3 @@ class SC2PublicAPI(uplink.Consumer):
     @uplink.get("ladder/grandmaster/{region}")
     def get_grandmaster(self, region: int):
         """Gets grandmaster leaderboard"""
-

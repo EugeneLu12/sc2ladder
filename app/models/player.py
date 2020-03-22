@@ -1,10 +1,11 @@
 import datetime
-from django.utils import timezone
+
+from constance import config
 from django.db import models
-from enumfields import Enum, EnumIntegerField, EnumField
+from django.utils import timezone
+from enumfields import Enum, EnumField, EnumIntegerField
 
 from app.models.identity import Identity
-from constance import config
 
 BNET_URI = "battlenet:://starcraft/profile/"
 
@@ -20,16 +21,16 @@ class Rank(Enum):
 
 
 class Race(Enum):
-    ZERG = 'Zerg'
-    TERRAN = 'Terran'
-    PROTOSS = 'Protoss'
-    RANDOM = 'Random'
+    ZERG = "Zerg"
+    TERRAN = "Terran"
+    PROTOSS = "Protoss"
+    RANDOM = "Random"
 
 
 class Region(Enum):
-    US = 'US'
-    EU = 'EU'
-    KR = 'KR'
+    US = "US"
+    EU = "EU"
+    KR = "KR"
 
 
 def age_filter(days=config.AGE_LIMIT):
@@ -39,14 +40,31 @@ def age_filter(days=config.AGE_LIMIT):
 
 
 class ActivePlayerManager(models.Manager):
-
     def get_queryset(self):
-        return super().get_queryset().filter(age_filter()).annotate(alias=models.F('identity__alias'))
+        return (
+            super()
+            .get_queryset()
+            .filter(age_filter())
+            .annotate(alias=models.F("identity__alias"))
+        )
 
 
 class PlayerManager(models.Manager):
-    def create_player(self, realm: str, region: Region, rank: Rank, username: str, bnet_id: str, race: Race, mmr: int,
-                      wins: int, losses: int, clan: str, profile_id: str, **extra_fields) -> 'Player':
+    def create_player(
+        self,
+        realm: str,
+        region: Region,
+        rank: Rank,
+        username: str,
+        bnet_id: str,
+        race: Race,
+        mmr: int,
+        wins: int,
+        losses: int,
+        clan: str,
+        profile_id: str,
+        **extra_fields,
+    ) -> "Player":
         """
         Note that this doesn't actually save the player in the DB. It simply returns a Player object.
         """
@@ -54,7 +72,7 @@ class PlayerManager(models.Manager):
             mmr = 2147483646
         elif int(mmr) < -2147483647:
             mmr = -2147483647
-        unique_id = f'{realm}/{region}/{profile_id}-{race}'
+        unique_id = f"{realm}/{region}/{profile_id}-{race}"
         player = self.model(
             id=unique_id,
             realm=realm,
@@ -68,7 +86,7 @@ class PlayerManager(models.Manager):
             losses=losses,
             clan=clan,
             profile_id=profile_id,
-            **extra_fields
+            **extra_fields,
         )
         return player
 
@@ -88,8 +106,12 @@ class Player(models.Model):
     clan: str = models.CharField(max_length=10, null=True, blank=True)
     profile_id: int = models.IntegerField()
 
-    identity = models.ForeignKey(Identity, null=True, blank=True, on_delete=models.SET_NULL)
-    game_link = models.CharField(max_length=25, null=True, blank=True)  # prepend with battlenet:://starcraft/profile/
+    identity = models.ForeignKey(
+        Identity, null=True, blank=True, on_delete=models.SET_NULL
+    )
+    game_link = models.CharField(
+        max_length=25, null=True, blank=True
+    )  # prepend with battlenet:://starcraft/profile/
     created_at: datetime = models.DateTimeField(auto_now_add=True)
     modified_at: datetime = models.DateTimeField(auto_now=True)
 
