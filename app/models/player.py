@@ -1,11 +1,11 @@
 import datetime
 
 from constance import config
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 from enumfields import Enum, EnumField, EnumIntegerField
 
+from app.models.fields import JSONField
 from app.models.identity import Identity
 
 BNET_URI = "battlenet:://starcraft/profile/"

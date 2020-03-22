@@ -14,7 +14,9 @@ class Command(BaseCommand):
             print(player.id)
             now = int(timezone.now().timestamp())
             mmr_history = player.mmr_history
-            most_recent_mmr = mmr_history.get(max(mmr_history), None)
+            most_recent_mmr = mmr_history.get(
+                max(mmr_history or [0], key=int), None  # Max throws for {}
+            )
             if player.mmr != most_recent_mmr:
                 player.mmr_history = {**player.mmr_history, now: player.mmr}
             player.save()
