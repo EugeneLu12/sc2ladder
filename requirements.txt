@@ -1,13 +1,9 @@
-Warning: The lock file is not up to date with the latest changes in pyproject.toml. You may be getting outdated dependencies. Run update to update them.
 aiohttp==3.6.2
-appdirs==1.4.3
 asgiref==3.2.5
 async-timeout==3.0.1
 attrs==19.3.0
-black==19.10b0
 certifi==2019.11.28
 chardet==3.0.4
-click==7.1.1
 dj-database-url==0.5.0
 django==3.0.4
 django-constance==2.6.0
@@ -17,21 +13,15 @@ django-picklefield==2.1.1
 django-waffle==0.20.0
 gunicorn==20.0.4
 idna==2.9
-isort==4.3.21
 jinja2==2.11.1
 markupsafe==1.1.1
 multidict==4.7.5
-pathspec==0.7.0
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
 pytz==2019.3
-regex==2020.2.20
 requests==2.23.0
 six==1.14.0
 sqlparse==0.3.1
-taskipy==1.2.1
-toml==0.10.0
-typed-ast==1.4.1
 uplink==0.9.1
 uritemplate==3.0.1
 urllib3==1.25.8
