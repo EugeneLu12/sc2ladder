@@ -85,8 +85,7 @@ def api_grandmaster(request, region):
                                                                                                         *common_values))
     # if no players were updated within 2.4 hours then we had an updating problem, so just return what we currently have
     if len(players) < 1:
-        players = list(Player.actives.filter(player_filter).order_by('-mmr').values(
-            *common_values))
+        players = list(Player.actives.filter(player_filter).order_by('-mmr').values(*common_values))
     return JsonResponse(players, safe=False, encoder=EnumEncoder)
 
 
