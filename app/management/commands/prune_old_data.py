@@ -6,7 +6,7 @@ from app.models.player import Player
 
 
 class Command(BaseCommand):
-    help = 'Deletes any player data that is older than 30 days'
+    help = "Deletes any player data that is older than 30 days"
 
     def handle(self, *args, **options):
         now = datetime.now()

@@ -8,7 +8,7 @@ from app.models.player import Player, Rank
 
 
 class PlayerSnapshotManager(models.Manager):
-    def create_player_snapshot(self, player: Player) -> 'PlayerSnapshot':
+    def create_player_snapshot(self, player: Player) -> "PlayerSnapshot":
         player_snapshot = self.model(
             player=player,
             rank=player.rank,
@@ -41,4 +41,4 @@ class PlayerSnapshot(models.Model):
     player_snapshots = PlayerSnapshotManager()
 
     def __str__(self):
-        return f'{self.id}'
+        return f"{self.id}"
