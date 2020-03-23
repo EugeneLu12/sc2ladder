@@ -2,6 +2,7 @@
 
 {% block css %}
   <link rel="stylesheet" href="{{ static('css/about.css') }}">
+  <link rel="stylesheet" href="{{ static('css/common.css') }}">
   <link rel="stylesheet" href="{{ static('css/navbar.css') }}">
 {% endblock %}
 
@@ -32,7 +33,7 @@
       Returns players whose character name or battletag matches the query parameter.<br><br>
       <b>Request URL Format:</b> <code>/api/player?query={query}&limit={limit}</code>
     </p>
- 
+
     <table>
       <tr>
         <th>Parameter</th>
@@ -50,8 +51,8 @@
       </tr>
       <tr>
         <td>limit</td>
-        <td>int</td>  
-        <td>      
+        <td>int</td>
+        <td>
           <input id="limitField" type="text" autocomplete="off">
         </td>
         <td>Number of results returned</td>
@@ -63,7 +64,6 @@
       <pre id="playerResponse"></pre>
     </div>
   </div>
-</div>
 {% endblock %}
 {% block scripts %}
   <script src="{{ static('js/submitform.js') }}"></script>
