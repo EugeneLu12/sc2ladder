@@ -20,4 +20,5 @@ urlpatterns = [
     ),
     path("api/clans/<str:clan_name>", api_clans, name="api-clans"),
     path("api/grandmaster/<str:region>", api_grandmaster, name="api-grandmaster"),
+    path("robots.txt", robots, name="robot.txt"),
 ]
