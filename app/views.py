@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from app.models.player import BNET_URI, Player, Race, Rank, Region, age_filter
@@ -218,3 +218,11 @@ def player(request, region: str, realm: int, profile_id: int, race: str):
         for x in (sorted(p.mmr_history.keys(), key=int))
     ]
     return render(request, "player.html", {"player": p, "data": data},)
+
+
+def robots(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
