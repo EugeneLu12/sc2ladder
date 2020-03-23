@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="{{ static('css/player.css') }}">
   <link rel="stylesheet" href="{{ static('css/navbar.css') }}">
   <link rel="stylesheet" href="{{ static('css/common.css') }}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,19 +15,37 @@
 
 <script type="text/javascript">
 var ctx = document.getElementById('mmr_history').getContext('2d');
-var myChart = new Chart(ctx, {
+var mmrHistory = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: {{ labels|safe }},
       datasets: [{
-        label: "MMR",
+        data: {{ data|safe }},
         backgroundColor: "rgba(0, 174, 255, 0.6)",
-        data: {{ values|safe }}
       }]
     },
     options: {
+      responsive: true,
       legend: {
         display: false
+      },
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'day',
+            tooltipFormat: 'll'
+          },
+          scaleLabel: {
+            display:     true,
+            labelString: 'Date'
+          }
+        }],
+        yAxes: [{
+          scaleLabel: {
+            display:     true,
+            labelString: 'MMR'
+          }
+        }]
       }
     }
 });

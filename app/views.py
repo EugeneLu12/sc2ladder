@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from app.models.player import BNET_URI, Player, Race, Rank, Region, age_filter
 
@@ -207,18 +208,13 @@ def about(request):
 
 def player(request, region: str, realm: int, profile_id: int, race: str):
     player_pk = f"{realm}/{region}/{profile_id}-{race}"
-    p = Player.actives.get(pk=player_pk)
-    sorted_keys = sorted(p.mmr_history.keys(), key=int)
-    labels = [
-        datetime.utcfromtimestamp(int(key)).strftime("%Y-%m-%d") for key in sorted_keys
+    try:
+        p = Player.actives.get(pk=player_pk)
+    except ObjectDoesNotExist:
+        return redirect("index")
+
+    data = [
+        {"x": datetime.utcfromtimestamp(int(x)).isoformat(), "y": p.mmr_history[x]}
+        for x in (sorted(p.mmr_history.keys(), key=int))
     ]
-    values = [p.mmr_history[key] for key in sorted_keys]
-    return render(
-        request,
-        "player.html",
-        {
-            "player": Player.actives.get(pk=player_pk),
-            "labels": labels,
-            "values": values,
-        },
-    )
+    return render(request, "player.html", {"player": p, "data": data},)
