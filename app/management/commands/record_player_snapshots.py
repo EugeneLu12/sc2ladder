@@ -11,7 +11,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print(f"Started updating mmr_history")
         for player in Player.actives.iterator(chunk_size=settings.DB_BATCH_SIZE):
-            print(player.id)
             now = int(timezone.now().timestamp())
             mmr_history = player.mmr_history
             most_recent_mmr = mmr_history.get(
@@ -20,6 +19,5 @@ class Command(BaseCommand):
             if player.mmr != most_recent_mmr:
                 player.mmr_history = {**player.mmr_history, now: player.mmr}
             player.save()
-            break
 
         print("Finished updating mmr_history")
