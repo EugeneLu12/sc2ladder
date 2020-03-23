@@ -3,6 +3,7 @@
 {% block css %}
   <link rel="stylesheet" href="{{ static('css/search.css') }}">
   <link rel="stylesheet" href="{{ static('css/navbar.css') }}">
+  <link rel="stylesheet" href="{{ static('css/common.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -46,7 +47,11 @@
         <tr>
           <td>{{ player.region.value }}</td>
           <td><img src="static/assets/img/{{ player.rank }}.png" class="icon"></td>
-          <td>{% if player.clan %}[{{ player.clan }}]{% endif %}{{ player.username.split('#')[0] }}</td>
+          <td>
+            <a href="{{ url('player', kwargs={'realm': player.realm, 'region': player.region.value, 'profile_id': player.profile_id, 'race': player.race}) }}">
+              {% if player.clan %}[{{ player.clan }}] {% endif %}{{ player.username.split('#')[0] }}
+            </a>
+          </td>
           <td>{{ player.bnet_id }}</td>
           <td><img src="static/assets/img/{{ player.race }}.png" class="icon"></td>
           <td>{{ player.mmr }}</td>
@@ -123,4 +128,3 @@
 {% block scripts %}
   <script src="{{ static('js/navbar.js') }}"></script>
 {% endblock %}
-</html>

@@ -7,6 +7,11 @@ urlpatterns = [
     path("search", search, name="search"),
     path("ladder", ladder, name="ladder"),
     path("about", about, name="about"),
+    path(
+        "player/<slug:region>/<int:realm>/<int:profile_id>/<slug:race>",
+        player,
+        name="player",
+    ),
     path("api/player", api_search, name="api"),
     path(
         "api/player/<int:region>/<int:realm>/<int:playerid>",

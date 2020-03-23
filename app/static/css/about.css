@@ -1,13 +1,5 @@
 html, body {
-    background: url("../assets/img/background.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
     margin: 48px 0;
-    height: 100%;
-    width: 100%;
-    padding: 0;
 }
 
 .content {
@@ -36,15 +28,6 @@ p {
     font-size: 16px;
     padding: 15px 5%;
     font-weight: normal;
-}
-
-p a {
-    text-decoration: none;
-    color: rgb(73, 173, 248);
-}
-
-p a:hover {
-    text-decoration: underline;
 }
 
 table {

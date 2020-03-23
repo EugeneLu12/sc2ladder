@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
@@ -201,3 +203,22 @@ def ladder(request):
 
 def about(request):
     return render(request, "about.html")
+
+
+def player(request, region: str, realm: int, profile_id: int, race: str):
+    player_pk = f"{realm}/{region}/{profile_id}-{race}"
+    p = Player.actives.get(pk=player_pk)
+    sorted_keys = sorted(p.mmr_history.keys(), key=int)
+    labels = [
+        datetime.utcfromtimestamp(int(key)).strftime("%Y-%m-%d") for key in sorted_keys
+    ]
+    values = [p.mmr_history[key] for key in sorted_keys]
+    return render(
+        request,
+        "player.html",
+        {
+            "player": Player.actives.get(pk=player_pk),
+            "labels": labels,
+            "values": values,
+        },
+    )
