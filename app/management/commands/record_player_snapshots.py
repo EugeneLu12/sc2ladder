@@ -18,6 +18,6 @@ class Command(BaseCommand):
             )
             if player.mmr != most_recent_mmr:
                 player.mmr_history = {**player.mmr_history, now: player.mmr}
-            player.save()
+                player.save()
 
         print("Finished updating mmr_history")
