@@ -1,8 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from app.src.update_db import (
-    update_all,
-    update_all_for_region,
+    update_ranks,
     update_gm_for_region_legacy,
     update_public_ladders,
     update_public_players,
@@ -47,18 +46,14 @@ class Command(BaseCommand):
         if region not in [None, "us", "eu", "kr"]:
             print("Region must be one of: us, eu, kr")
             return
+        print(f"Updating the {region} region {league} league")
         if public:
             if ladders:
                 update_public_ladders(region, league)
             if players:
                 update_public_players(region, league)
-        elif region is None:
-            print("Updating all regions")
-            update_all()
         else:
-            print(f"Updating the {region} region")
             if legacy:
                 update_gm_for_region_legacy(region)
             else:
-                update_all_for_region(region)
-        print("Updated")
+                update_ranks(region, league)

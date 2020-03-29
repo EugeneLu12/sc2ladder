@@ -17,16 +17,21 @@ from app.src.s2ladderapi import BlizzSession
 from app.src.sc2publicapi import BASE_URL, SC2PublicAPI
 
 
-async def fetch_ladders(region=None):
+async def fetch_ladders(region, league=None):
     loop = asyncio.get_event_loop()
     blz = BlizzSession(
         settings.BLIZZARD_CLIENT_ID, settings.BLIZZARD_CLIENT_SECRET, loop=loop
     )
     await blz.get_token()
-    if region is None:
-        data = await blz.get_all_ladders()
-    else:
+    if region and league:
+        season = await blz.get_season(region)
+        leagues = ["bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"]
+        league_int = leagues.index(league.lower())
+        data = await blz.get_ladders_by_region_league(region=region, season_id=season['seasonId'], league=league_int)
+    elif region:
         data = await blz.get_ladders_by_region(region)
+    else:
+        data = await blz.get_all_ladders()
     await blz.close()
     return data
 
@@ -35,7 +40,7 @@ def update_database(region, ladder_list):
     step_size = config.STEP_SIZE
     for i in range(0, len(ladder_list), step_size):
         update_list = []
-        for ladder in ladder_list[i : i + step_size]:
+        for ladder in ladder_list[i: i + step_size]:
             update_list += parse_ladder(ladder, region)
         Player.players.bulk_create(
             update_list, batch_size=settings.DB_BATCH_SIZE, ignore_conflicts=True
@@ -56,19 +61,19 @@ def update_database(region, ladder_list):
         )
 
 
-def update_all_for_region(region):
+def update_ranks(region, league):
+    print("updating ranks")
     loop = asyncio.new_event_loop()
-    data = loop.run_until_complete(fetch_ladders(region))
-    loop.close()
-    update_database(region, data)
+    data = loop.run_until_complete(fetch_ladders(region, league))
+    if region is not None:
+        update_database(region, data)
+    else:
+        for region in data:
+            update_database(region["region"], region["data"])
+    print("updated")
 
 
-def update_all():
-    loop = asyncio.new_event_loop()
-    data = loop.run_until_complete(fetch_ladders())
-    loop.close()
-    for region in data:
-        update_database(region["region"], region["data"])
+# BELOW CODE IS ONLY USED AS A BACKUP OPTION TO GET AROUND BLIZZARD API ISSUES
 
 
 def update_all_gm_legacy():
