@@ -109,7 +109,7 @@ class BlizzSession:
         url = f"https://us.api.blizzard.com/sc2/ladder/grandmaster/{self._regiond[region]}"
         return await self.request("GET", url)
 
-    async def get_season(self, region: int):
+    async def get_season(self, region: str):
         """
         Returns data about the current season.
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
