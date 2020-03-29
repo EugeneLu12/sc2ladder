@@ -48,7 +48,8 @@ def api_search(request):
     game_link = request.GET.get("gamelink")
     player_filter = Q()
     if name:
-        player_filter &= Q(username__iexact=name)
+        # handle '#' names and names without '#'
+        player_filter &= Q(username__iexact=name) | Q(username__istartswith=name + '#')
     elif bnet:
         player_filter &= Q(bnet_id__iexact=bnet)
     elif query:
