@@ -16,7 +16,7 @@ def parse_ladder(response_json, region) -> List[Player]:
                 try:
                     realm = member["legacy_link"]["realm"]
                     race = k["race"]["en_US"].capitalize()
-                    character_name = member["legacy_link"]["name"]
+                    character_name = member["legacy_link"]["name"].split('#')[0]
                     bnet_id = member["character_link"]["battle_tag"]
                     profile_id = member["character_link"]["id"]
                     clan_tag = member.get("clan_link", {}).get("clan_tag")
