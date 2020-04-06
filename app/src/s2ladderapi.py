@@ -2,6 +2,9 @@ import asyncio
 
 import aiohttp
 from aiohttp import BasicAuth
+from constance import config
+
+BASE_URL = config.SC2API_BASEURL
 
 
 class BlizzSession:
@@ -48,7 +51,7 @@ class BlizzSession:
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/static/profile/{self._regiond[region]}"
+        url = f"https://{BASE_URL}/sc2/static/profile/{self._regiond[region]}"
         return await self.request("GET", url)
 
     async def get_metadata_profile(self, region, realm_id, profile_id):
@@ -59,7 +62,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/metadata/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
+        url = f"https://{BASE_URL}/sc2/metadata/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
         return await self.request("GET", url)
 
     async def get_profile(self, region, realm_id, profile_id):
@@ -70,7 +73,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
+        url = f"https://{BASE_URL}/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
         return await self.request("GET", url)
 
     async def get_ladder_summary(self, region, realm_id, profile_id):
@@ -81,7 +84,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladder/summary"
+        url = f"https://{BASE_URL}/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladder/summary"
         return await self.request("GET", url)
 
     async def get_ladder_profile(self, region, realm_id, profile_id, ladder_id):
@@ -93,7 +96,7 @@ class BlizzSession:
         :param ladder_id: The ID of the ladder for which to retrieve data.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladder/{ladder_id}"
+        url = f"https://{BASE_URL}/sc2/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladder/{ladder_id}"
         return await self.request("GET", url)
 
     """
@@ -106,7 +109,7 @@ class BlizzSession:
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/ladder/grandmaster/{self._regiond[region]}"
+        url = f"https://{BASE_URL}/sc2/ladder/grandmaster/{self._regiond[region]}"
         return await self.request("GET", url)
 
     async def get_season(self, region: str):
@@ -115,7 +118,7 @@ class BlizzSession:
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/ladder/season/{self._regiond[region]}"
+        url = f"https://{BASE_URL}/sc2/ladder/season/{self._regiond[region]}"
         return await self.request("GET", url)
 
     """
@@ -157,7 +160,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
+        url = f"https://{BASE_URL}/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}"
         return await self.request("GET", url)
 
     async def get_legacy_ladders(self, region, realm_id, profile_id):
@@ -168,7 +171,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladders"
+        url = f"https://{BASE_URL}/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}/ladders"
         return await self.request("GET", url)
 
     async def get_legacy_match_history(self, region, realm_id, profile_id):
@@ -179,7 +182,7 @@ class BlizzSession:
         :param profile_id: The profile ID.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}/matches"
+        url = f"https://{BASE_URL}/sc2/legacy/profile/{self._regiond[region]}/{realm_id}/{profile_id}/matches"
         return await self.request("GET", url)
 
     async def get_legacy_ladder(self, region, ladder_id):
@@ -189,7 +192,7 @@ class BlizzSession:
         :param ladder_id: The ID of the ladder for which to retrieve data.
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/ladder/{self._regiond[region]}/{ladder_id}"
+        url = f"https://{BASE_URL}/sc2/legacy/ladder/{self._regiond[region]}/{ladder_id}"
         return await self.request("GET", url)
 
     async def get_legacy_achievements(self, region):
@@ -198,7 +201,7 @@ class BlizzSession:
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/data/achievements/{self._regiond[region]}"
+        url = f"https://{BASE_URL}/sc2/legacy/data/achievements/{self._regiond[region]}"
         return await self.request("GET", url)
 
     async def get_legacy_rewards(self, region):
@@ -207,7 +210,7 @@ class BlizzSession:
         :param region: The region of the data to retrieve ('us', 'eu', or 'kr').
         :return: Dict
         """
-        url = f"https://us.api.blizzard.com/sc2/legacy/data/rewards/{self._regiond[region]}"
+        url = f"https://{BASE_URL}/sc2/legacy/data/rewards/{self._regiond[region]}"
         return await self.request("GET", url)
 
     """
