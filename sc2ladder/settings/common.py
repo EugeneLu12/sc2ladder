@@ -20,6 +20,11 @@ CONSTANCE_CONFIG = {
         "Hide players who haven't been updated in this number of days.",
         int,
     ),
+    "SC2API_BASEURL": (
+        "kr.api.blizzard.com",
+        "Base url to use for the SC2 API",
+        str,
+    ),
 }
 
 INSTALLED_APPS = [

@@ -2,8 +2,9 @@ import asyncio
 
 import aiohttp
 from aiohttp import BasicAuth
+from constance import config
 
-BASE_URL = "kr.api.blizzard.com"
+BASE_URL = config.SC2API_BASEURL
 
 
 class BlizzSession:
