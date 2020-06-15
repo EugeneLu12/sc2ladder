@@ -265,7 +265,7 @@ class BlizzSession:
         )
         ladder_ids = []
         for tier in league_data.get("tier", []):
-            for div in tier["division"]:
+            for div in tier.get("division", []):
                 ladder_ids.append(div["ladder_id"])
         return await asyncio.gather(
             *[self.get_ladder(region, ladder_id) for ladder_id in ladder_ids]
