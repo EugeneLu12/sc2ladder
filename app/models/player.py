@@ -34,7 +34,9 @@ class Region(Enum):
     KR = "KR"
 
 
-def age_filter(days=config.AGE_LIMIT):
+def age_filter(days=None):
+    if days is None:
+        days = config.AGE_LIMIT
     now = timezone.now()
     days_ago = now - timezone.timedelta(days=days)
     return models.Q(modified_at__gte=days_ago)
