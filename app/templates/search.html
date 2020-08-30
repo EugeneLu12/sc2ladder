@@ -49,7 +49,7 @@
           <td><img src="static/assets/img/{{ player.rank }}.png" class="icon"></td>
           <td>
             <a href="{{ url('player', kwargs={'realm': player.realm, 'region': player.region.value, 'profile_id': player.profile_id, 'race': player.race}) }}">
-              {% if player.clan %}[{{ player.clan }}] {% endif %}{{ player.username.split('#')[0] }}
+              {% if player.clan %}[{{ player.clan }}] {% endif %}{{ player.username.split('#')[0] }} {% if player.identity %} ({{ player.identity }}) {% endif %}
             </a>
           </td>
           <td>{{ player.bnet_id }}</td>
