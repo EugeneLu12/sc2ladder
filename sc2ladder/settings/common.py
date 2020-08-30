@@ -25,6 +25,10 @@ CONSTANCE_CONFIG = {
         "Base url to use for the SC2 API",
         str,
     ),
+    "CACHE_EXPIRY_TIME": (
+        300,
+        "How long content is stored in the redis cache. Measured in seconds."
+    )
 }
 
 INSTALLED_APPS = [
@@ -50,6 +54,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "waffle.middleware.WaffleMiddleware",
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ["REDIS_URL"],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "sc2ladder"
+    }
+}
 
 ROOT_URLCONF = "sc2ladder.urls"
 

@@ -1,11 +1,13 @@
 from datetime import datetime
 
+from constance import config
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import cache_page
 
 from app.models.player import BNET_URI, Player, Race, Rank, Region, age_filter
 
@@ -157,6 +159,7 @@ def index(request):
     return render(request, "index.html")
 
 
+@cache_page(config.CACHE_EXPIRY_TIME)
 def search(request):
     players = get_players(request)
     pages_required = (len(players) > 0) - 1
@@ -167,6 +170,7 @@ def search(request):
     )
 
 
+@cache_page(config.CACHE_EXPIRY_TIME)
 def ladder(request):
     region = request.GET.get("region", "us")
     rank = request.GET.get("rank", "all")

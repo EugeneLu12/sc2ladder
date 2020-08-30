@@ -37,6 +37,7 @@ django-waffle = "^0.20.0"
 django-constance = { version = "^2.6.0", extras = ["database"] }
 psycopg2-binary = "^2.8.4"
 uplink = "^0.9.1"
+django-redis = "^4.12.1"
 
 [tool.poetry.dev-dependencies]
 isort = "^4.3.21"
