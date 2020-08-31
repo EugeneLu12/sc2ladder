@@ -10,6 +10,7 @@ django-constance==2.6.0
 django-enumfields==2.0.0
 django-heroku==0.3.1
 django-picklefield==2.1.1
+django-redis==4.12.1
 django-waffle==0.20.0
 gunicorn==20.0.4
 idna==2.9
@@ -19,6 +20,7 @@ multidict==4.7.5
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
 pytz==2019.3
+redis==3.5.3
 requests==2.23.0
 six==1.14.0
 sqlparse==0.3.1
