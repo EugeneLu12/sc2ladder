@@ -178,12 +178,11 @@ def ladder(request):
     try:
         page_number = int(request.GET.get("page",  1))
         assert page_number > 0
-    except (ValueError, TypeError, AssertionError):
+        rank_query = Rank[rank.upper()].value if rank != "all" else ""
+    except (ValueError, TypeError, AssertionError, KeyError):
         raise SuspiciousOperation
 
     region_query = region if region != "all" else ""
-    rank_query = Rank[rank.upper()].value if rank != "all" else ""
-
     limit = 25
     start = (page_number - 1) * limit
     end = start + limit
