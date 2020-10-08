@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
-
+from django.core.exceptions import SuspiciousOperation
 from app.models.player import BNET_URI, Player, Race, Rank, Region, age_filter
 
 
@@ -175,10 +175,14 @@ def ladder(request):
     region = request.GET.get("region", "us")
     rank = request.GET.get("rank", "all")
     sort_by = request.GET.get("sort", "mmr")
-    page_number = int(request.GET.get("page", 1))
-    region_query = region if region != "all" else ""
-    rank_query = Rank[rank.upper()].value if rank != "all" else ""
+    try:
+        page_number = int(request.GET.get("page",  1))
+        assert page_number > 0
+        rank_query = Rank[rank.upper()].value if rank != "all" else ""
+    except (ValueError, TypeError, AssertionError, KeyError):
+        raise SuspiciousOperation
 
+    region_query = region if region != "all" else ""
     limit = 25
     start = (page_number - 1) * limit
     end = start + limit
